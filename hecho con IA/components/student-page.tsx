@@ -25,10 +25,36 @@ export function StudentPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [grades, setGrades] = useState<Record<string, number[][][]>>({
-    A: Array(5).fill(null).map(() => Array(2).fill(null).map(() => Array(6).fill(0))),
-    B: Array(2).fill(null).map(() => Array(2).fill(null).map(() => Array(6).fill(0))),
+    A: [
+      [Array(7).fill(0), Array(7).fill(0)],  // 1º y 2º semestres (7 casillas)
+      [Array(5).fill(0), Array(5).fill(0)],  // 3º y 4º semestres (5 casillas)
+      [Array(4).fill(0), Array(5).fill(0)],  // 5º y 6º semestres (4 casillas y 5 casillas)
+      [Array(4).fill(0), Array(4).fill(0)],  // 7º y 8º semestres (4 casillas)
+      [Array(4).fill(0), Array(5).fill(0)],  // 9º y 10º semestres (4 casillas y 5 casillas)
+    ],
+    B: [
+      [Array(2).fill(0), Array(2).fill(0)],  // 11º y 12º semestres (2 casillas)
+      [Array(3).fill(0), Array(2).fill(0)]   // 13º y 14º semestres (3 y 2 casillas)
+    ],
     C: [[Array(5).fill(0)]]
-  })
+  }) 
+  const [subjectNames, setSubjectNames] = useState<Record<string, string[][][]>>({
+    A: [
+      [["Anatomía y Embriología I", "Histología I", "Procesos BiológicosI", "Introducción a la Medicina I", "Bioestadística I", "Ciencias Sociales de la Salud", "Formación General para la globalización I"], ["Anatomía y Embriología II", "Histología II", "Procesos BiológicosII", "Introducción a la Medicina II", "Bioestadística II", "Seguridad Social y Sistemas de salud", "Formación General para la globalización II"]],
+      [["Función Normal y Patológica I", "Neurociencias", "Entrevista Clínica", "Epidemiología", "Investigación Cualitativa"], ["Función Normal y Patológica II", "Microbiología y Parasitología", "Semiología", "Diagnóstico de Salud Participativo", "Investigación Cuantitativa"]],
+      [["Clínica del Adulto I", "Educación para la Salud", "Epidemiología de Enfermedades transmitibles", "Salud Familiar"],["Clínica del Adulto II", "Ética Médica I", "Medicina Basada en Evidencias", "Salud Ambiental", "Formación General Valórica"]],
+      [["Clínica del Adulto III", "Ética Médica II", "Psicopatología I", "Gestión en Salud"],["Clínica del Adulto IV", "Psicopatología II", "Integración Clínica", "Gestión de Proyectos"]],
+      [["Pediatría", "Psiquiatría I", "Atención Avanzada de Urgencias", "SaludOcupacional"],["Derecho y Práctica Médica", "Obstetricia y Ginecología", "Psiquiatría II", "Emergencias y Desastres", "Formación General Electiva"]],
+    ],
+    B: [
+      [["Internado de Cirugía","Internado de Medicina Interna"],["Internado de Ginecología y Obstetricia","Internado de Pediatría"]],
+      [["Internado de Especialidad Básica Electiva","Internado de Especialidad Libre","Internado de Especialidades Obligatorias"],["Internado Atención Primaria de Salud","Internado Rural Interdisciplinario"]],
+    ],
+    C: [
+      [["a","b","c","d","e"]],
+    ],
+    
+  })   
   const [finalGrade, setFinalGrade] = useState(0)
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({ A: false, B: false, C: false })
 
@@ -43,13 +69,23 @@ export function StudentPage() {
 
   useEffect(() => {
     const calculateFinalGrade = () => {
-      const avgA = grades.A.flat(2).reduce((sum, grade) => sum + grade, 0) / (5 * 2 * 6) * 0.6
-      const avgB = grades.B.flat(2).reduce((sum, grade) => sum + grade, 0) / (2 * 2 * 6) * 0.3
-      const avgC = grades.C.flat(2).reduce((sum, grade) => sum + grade, 0) / 5 * 0.1
-      return (avgA + avgB + avgC).toFixed(2)
-    }
-    setFinalGrade(parseFloat(calculateFinalGrade()))
-  }, [grades])
+      const sumGrades = (grades: number[][][]) => 
+        grades.flat(2).reduce((sum, grade) => sum + grade, 0);
+  
+      // Ponderación de las calificaciones para A, B y C
+      const totalA = grades.A.flat(2).length; // Número total de calificaciones en A
+      const totalB = grades.B.flat(2).length; // Número total de calificaciones en B
+      const totalC = grades.C.flat(2).length; // Número total de calificaciones en C
+  
+      const avgA = sumGrades(grades.A) / totalA * 0.6; // Pondera 60%
+      const avgB = sumGrades(grades.B) / totalB * 0.3; // Pondera 30%
+      const avgC = sumGrades(grades.C) / totalC * 0.1; // Pondera 10%
+  
+      return (avgA + avgB + avgC).toFixed(2);
+    };
+  
+    setFinalGrade(parseFloat(calculateFinalGrade()));
+  }, [grades])  
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }))
@@ -72,20 +108,28 @@ export function StudentPage() {
   // Definir `renderGradeInputs` correctamente aquí
   const renderGradeInputs = (category: string, year: number, semester: number) => (
     <div className="grid grid-cols-6 gap-4 mb-4">
-      {grades[category][year][semester].map((grade, index) => (
-        <Input
-          key={index}
-          type="number"
-          value={grade || ''}
-          onChange={(e) => updateGrade(category, year, semester, index, e.target.value)}
-          className="w-16 text-black border border-gray-500 rounded"
-          min={1}
-          max={7}
-          step={0.1}
-        />
-      ))}
+      {grades[category] && grades[category][year] && grades[category][year][semester] ? (
+        grades[category][year][semester].map((grade, index) => (
+          <div key={index} className="flex flex-col items-center">
+            <span className="text-xs text-gray-600 mb-1"> {/* Ajustes de estilo aquí */}
+              {subjectNames[category][year][semester][index] || `Asignatura ${index + 1}`}
+            </span>
+            <Input
+              type="number"
+              value={grade || ''}
+              onChange={(e) => updateGrade(category, year, semester, index, e.target.value)}
+              className="w-16 text-black border border-gray-500 rounded"
+              min={1}
+              max={7}
+              step={0.1}
+            />
+          </div>
+        ))
+      ) : (
+        <p>No hay datos disponibles para este semestre.</p>
+      )}
     </div>
-  )
+  )   
 
   // Función renderCategory correctamente definida y utilizando renderGradeInputs
   const renderCategory = (category: string) => (
@@ -125,45 +169,50 @@ export function StudentPage() {
   )
 
   // Renderiza el formulario de login
-  const renderLogin = () => (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-2xl font-bold mb-4 text-center text-black">Login</h2>
-        <div className="mb-4">
-          <label className="block text-black text-sm font-bold mb-2" htmlFor="username">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded text-black"
-            placeholder="Enter your username"
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-black text-sm font-bold mb-2" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded text-black"
-            placeholder="Enter your password"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Login
-        </button>
-      </form>
-    </div>
-  )
+  // Renderiza el formulario de login
+const renderLogin = () => (
+  <div
+    className="flex justify-center items-center h-screen bg-cover bg-center"
+    style={{ backgroundImage: 'url(https://postgrado.ucn.cl/wp-content/uploads/2023/06/Escudo-UCN-EIMG_7894-scaled.jpg)' }}  // Aquí insertas la URL de la imagen
+  >
+    <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
+      <h2 className="text-2xl font-bold mb-4 text-center text-black">Login</h2>
+      <div className="mb-4">
+        <label className="block text-black text-sm font-bold mb-2" htmlFor="username">
+          Username
+        </label>
+        <input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded text-black"
+          placeholder="Enter your username"
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-black text-sm font-bold mb-2" htmlFor="password">
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded text-black"
+          placeholder="Enter your password"
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+)
+
 
   // Renderiza la interfaz de notas si el usuario está logueado
   const renderGradesInterface = () => (
