@@ -1,3 +1,16 @@
+/* Estilos generales */
+@font-face {
+  font-family: 'GeistMonoVF';
+  src: url('/app/fonts/GeistMonoVF.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+:root {
+  --font-main: 'GeistMonoVF', sans-serif;
+  --font-heading: 'GeistMonoVF', sans-serif;
+}
+
 .container {
     width: 100%;
     max-width: 64rem; /* 4xl en Tailwind */
@@ -9,6 +22,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
+    font-family: (var(--font-main));
   }
   
   .form {
@@ -72,6 +86,7 @@
   .rangeLabel {
     font-size: 0.875rem;
     font-weight: 500;
+    font-family: var(--font-main);
   }
   
   .slider {
