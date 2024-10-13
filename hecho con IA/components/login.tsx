@@ -8,7 +8,7 @@ const Login = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simula una autenticación básica
-    if (username === 'alumno' && password === '1234') {
+    if (username === 'Gabriel Vergara' && password === '1234') {
       setIsLoggedIn(true);
     } else {
       alert('Credenciales incorrectas');
