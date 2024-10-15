@@ -1,0 +1,111 @@
+/* Estilos generales */
+@font-face {
+  font-family: 'GeistMonoVF';
+  src: url('/app/fonts/GeistMonoVF.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+:root {
+  --font-main: 'GeistMonoVF', sans-serif;
+  --font-heading: 'GeistMonoVF', sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 64rem; /* 4xl en Tailwind */
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: (var(--font-main));
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .searchBar {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .input {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+  }
+  
+  .button {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .button:hover {
+    background-color: #2563eb;
+  }
+  
+  .button svg {
+    margin-right: 0.5rem;
+  }
+  
+  .filterRow {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .select {
+    min-width: 180px;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    background-color: white;
+  }
+  
+  .rangeFilter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .rangeLabel {
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: var(--font-main);
+  }
+  
+  .slider {
+    width: 100%;
+  }
+  
+  .priceRange {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  @media (max-width: 640px) {
+    .filterRow {
+      flex-direction: column;
+    }
+  
+    .select {
+      width: 100%;
+    }
+  }
