@@ -27,32 +27,32 @@ export function StudentPage() {
   const [studentName, setStudentName] = useState('')
   const [grades, setGrades] = useState<Record<string, number[][][]>>({
     A: [
-      [Array(7).fill(0), Array(7).fill(0)],  // 1º y 2º semestres (7 casillas)
-      [Array(5).fill(0), Array(5).fill(0)],  // 3º y 4º semestres (5 casillas)
-      [Array(4).fill(0), Array(5).fill(0)],  // 5º y 6º semestres (4 casillas y 5 casillas)
-      [Array(4).fill(0), Array(4).fill(0)],  // 7º y 8º semestres (4 casillas)
-      [Array(4).fill(0), Array(5).fill(0)],  // 9º y 10º semestres (4 casillas y 5 casillas)
+      [Array(6).fill(7), Array(6).fill(7)],  // 1º y 2º semestres (6 casillas)
+      [Array(5).fill(7), Array(5).fill(7)],  // 3º y 4º semestres (5 casillas)
+      [Array(4).fill(7), Array(4).fill(7)],  // 5º y 6º semestres (4 casillas y 4 casillas)
+      [Array(4).fill(7), Array(4).fill(7)],  // 7º y 8º semestres (4 casillas)
+      [Array(4).fill(7), Array(4).fill(7)],  // 9º y 10º semestres (4 casillas y 4 casillas)
     ],
     B: [
-      [Array(2).fill(0), Array(2).fill(0)],  // 11º y 12º semestres (2 casillas)
-      [Array(3).fill(0), Array(2).fill(0)]   // 13º y 14º semestres (3 y 2 casillas)
+      [Array(2).fill(7), Array(2).fill(7)],  // 11º y 12º semestres (2 casillas)
+      [Array(3).fill(7), Array(2).fill(7)]   // 13º y 14º semestres (3 y 2 casillas)
     ],
-    C: [[Array(5).fill(0)]]
+    C: [[Array(4).fill(0)]]
   }) 
   const [subjectNames, setSubjectNames] = useState<Record<string, string[][][]>>({
     A: [
-      [["Anatomía y Embriología I", "Histología I", "Procesos BiológicosI", "Introducción a la Medicina I", "Bioestadística I", "Ciencias Sociales de la Salud", "Formación General para la globalización I"], ["Anatomía y Embriología II", "Histología II", "Procesos BiológicosII", "Introducción a la Medicina II", "Bioestadística II", "Seguridad Social y Sistemas de salud", "Formación General para la globalización II"]],
+      [["Anatomía y Embriología I", "Histología I", "Procesos BiológicosI", "Introducción a la Medicina I", "Bioestadística I", "Ciencias Sociales de la Salud"], ["Anatomía y Embriología II", "Histología II", "Procesos BiológicosII", "Introducción a la Medicina II", "Bioestadística II", "Seguridad Social y Sistemas de salud"]],
       [["Función Normal y Patológica I", "Neurociencias", "Entrevista Clínica", "Epidemiología", "Investigación Cualitativa"], ["Función Normal y Patológica II", "Microbiología y Parasitología", "Semiología", "Diagnóstico de Salud Participativo", "Investigación Cuantitativa"]],
-      [["Clínica del Adulto I", "Educación para la Salud", "Epidemiología de Enfermedades transmitibles", "Salud Familiar"],["Clínica del Adulto II", "Ética Médica I", "Medicina Basada en Evidencias", "Salud Ambiental", "Formación General Valórica"]],
+      [["Clínica del Adulto I", "Educación para la Salud", "Epidemiología de Enfermedades transmitibles", "Salud Familiar"],["Clínica del Adulto II", "Ética Médica I", "Medicina Basada en Evidencias", "Salud Ambiental"]],
       [["Clínica del Adulto III", "Ética Médica II", "Psicopatología I", "Gestión en Salud"],["Clínica del Adulto IV", "Psicopatología II", "Integración Clínica", "Gestión de Proyectos"]],
-      [["Pediatría", "Psiquiatría I", "Atención Avanzada de Urgencias", "SaludOcupacional"],["Derecho y Práctica Médica", "Obstetricia y Ginecología", "Psiquiatría II", "Emergencias y Desastres", "Formación General Electiva"]],
+      [["Pediatría", "Psiquiatría I", "Atención Avanzada de Urgencias", "SaludOcupacional"],["Derecho y Práctica Médica", "Obstetricia y Ginecología", "Psiquiatría II", "Emergencias y Desastres"]],
     ],
     B: [
       [["Internado de Cirugía","Internado de Medicina Interna"],["Internado de Ginecología y Obstetricia","Internado de Pediatría"]],
       [["Internado de Especialidad Básica Electiva","Internado de Especialidad Libre","Internado de Especialidades Obligatorias"],["Internado Atención Primaria de Salud","Internado Rural Interdisciplinario"]],
     ],
     C: [
-      [["a","b","c","d","e"]],
+      [["Internado de Cirugía","Internado de Medicina Interna","Internado de Ginecología y Obstetricia","Internado de Pediatría"]],
     ],
     
   })   
@@ -68,25 +68,55 @@ export function StudentPage() {
     })
   }
 
+  const semesterCredits = [26, 27, 30, 30, 30, 27, 29, 32, 30, 26, 49, 58, 47, 45]
+
+  const subjectCredits: Record<string, number[][][]> = {
+    A: [
+      [[9, 4, 5, 2, 2, 4], [9, 4, 6, 2, 2, 3]], // 1º y 2º semestres
+      [[11, 9, 4, 3, 3], [11, 6, 6, 3, 4]], // 3º y 4º semestres
+      [[18, 3, 3, 6], [17, 4, 3, 3]], // 5º y 6º semestres
+      [[17, 3, 5, 4], [18, 5, 5, 4]], // 7º y 8º semestres
+      [[16, 5, 5, 4], [16, 2, 5, 3]], // 9º y 10º semestres
+    ],
+    B: [
+      [[17, 32], [26, 32]], // 11º y 12º semestres
+      [[26, 6, 14], [27, 18]], // 13º y 14º semestres
+    ],
+    C: [
+        [[17, 32, 26, 32]]
+    ]
+  }
+
   useEffect(() => {
     const calculateFinalGrade = () => {
-      const sumGrades = (grades: number[][][]) => 
-        grades.flat(2).reduce((sum, grade) => sum + grade, 0);
-  
-      // Ponderación de las calificaciones para A, B y C
-      const totalA = grades.A.flat(2).length; // Número total de calificaciones en A
-      const totalB = grades.B.flat(2).length; // Número total de calificaciones en B
-      const totalC = grades.C.flat(2).length; // Número total de calificaciones en C
-  
-      const avgA = sumGrades(grades.A) / totalA * 0.6; // Pondera 60%
-      const avgB = sumGrades(grades.B) / totalB * 0.3; // Pondera 30%
-      const avgC = sumGrades(grades.C) / totalC * 0.1; // Pondera 10%
-  
-      return (avgA + avgB + avgC).toFixed(2);
+      const calculateCategoryGrade = (category: string) => {
+        let categoryWeightedGrade = 0;
+        let categoryCreditSum = 0;
+
+        grades[category].forEach((year, yearIndex) => {
+          year.forEach((semester, semesterIndex) => {
+            semester.forEach((grade, gradeIndex) => {
+              const credits = subjectCredits[category][yearIndex][semesterIndex][gradeIndex];
+              categoryWeightedGrade += grade * credits;
+              categoryCreditSum += credits;
+            });
+          });
+        });
+
+        return categoryCreditSum > 0 ? categoryWeightedGrade / categoryCreditSum : 0;
+      };
+
+      const gradeA = calculateCategoryGrade('A');
+      const gradeB = calculateCategoryGrade('B');
+      const gradeC = calculateCategoryGrade('C');
+
+      const finalGrade = gradeA * 0.6 + gradeB * 0.3 + gradeC * 0.1;
+
+      return isNaN(finalGrade) ? 0 : parseFloat(finalGrade.toFixed(2));
     };
-  
-    setFinalGrade(parseFloat(calculateFinalGrade()));
-  }, [grades])  
+
+    setFinalGrade(calculateFinalGrade());
+  }, [grades]);
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }))
