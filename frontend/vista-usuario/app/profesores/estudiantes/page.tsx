@@ -1,6 +1,6 @@
 'use client'
 import React, {useState} from 'react';
-import SearchFilter from '@/app/components/SearchFilter';
+import SearchFilter from '../../../components/SearchFilter'
 
 interface Student {
     rut: string;

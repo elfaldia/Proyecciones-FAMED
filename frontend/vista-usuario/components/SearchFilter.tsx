@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import CategoryFilter from './CategoryFilter';
 import SortFilter from './SortFilter';
-import '../styles/searchfilter.css'
+import '@/app/styles/searchfilter.css'
+
 
 interface Filters {
     semester: string;
