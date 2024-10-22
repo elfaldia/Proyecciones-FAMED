@@ -27,10 +27,7 @@ const page:React.FC = () => {
     return (
         <div>
             <SearchFilter onApplyFilters={handleAppliedFilter}/>
-
-
         </div>
-
     );
 };
 
