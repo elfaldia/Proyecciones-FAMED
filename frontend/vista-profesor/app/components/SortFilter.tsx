@@ -20,14 +20,14 @@ const SortFilter: React.FC<SortFilterProps> = ({onSortChange}) => {
     };
 
     return (
-        <div className={styles['form-group']}>
-            <label className={styles.label}>Ordenar por</label>
-                <select className={styles.selectButton} onChange={handleSortChange}>
-                    <option value="">Seleccionar</option>
-                    {sortOptions.map((option) => (
-                        <option key={option.value} value = {option.value}>
-                            {option.label}
-                        </option>
+        <div>
+            <label className={styles.label}>Ordenar</label>
+            <select className={styles.selectButton} onChange={handleSortChange}>
+                <option value="">Ordenar por</option>
+                {sortOptions.map((option) => (
+                    <option key={option.value} value = {option.value}>
+                        {option.label}
+                    </option>
                     ))}
                 </select>
         </div>
