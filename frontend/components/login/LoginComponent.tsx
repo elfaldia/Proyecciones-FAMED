@@ -7,9 +7,9 @@ interface LoginProps {
 }
 
 export function LoginComponent({ onLogin }: LoginProps) {
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-
+//sdsd
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if (username === 'Sebastian Vega' && password === '1234') {
