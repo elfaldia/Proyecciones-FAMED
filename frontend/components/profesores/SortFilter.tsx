@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import styles from '@/app/styles/searchFilter.module.css'
 
 interface SortFilterProps {
     onSortChange: (sortOrder:string ) => void;
@@ -20,15 +21,15 @@ const SortFilter: React.FC<SortFilterProps> = ({onSortChange}) => {
 
     return (
         <div>
-            <label>Ordenar por:</label>
-            <select onChange={handleSortChange}>
-                <option value="">Seleccionar</option>
+            <label className={styles.label}>Ordenar</label>
+            <select className={styles.selectButton} onChange={handleSortChange}>
+                <option value="">Ordenar por</option>
                 {sortOptions.map((option) => (
                     <option key={option.value} value = {option.value}>
                         {option.label}
                     </option>
-                ))}
-            </select>
+                    ))}
+                </select>
         </div>
     );
 };

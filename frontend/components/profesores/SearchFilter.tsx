@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import CategoryFilter from './CategoryFilter';
 import SortFilter from './SortFilter';
-import '@/app/styles/searchfilter.css'
+import styles from '@/app/styles/searchFilter.module.css'
 
 
 interface Filters {
@@ -31,18 +31,20 @@ const SearchFilter: React.FC<SearchFilterProps> = ({onApplyFilters}) => {
     };
 
     return (
-        <div>
-            <label>Seleccionar Filtros</label>
-            <CategoryFilter 
-                onYearChange={handleYearChange}
-                onSemesterChange={handleSemesterChange}
+        <div className={styles['filter-form']}>
+            <div className={styles['form-row']}>
+                
+                    <h2 className={styles.title}>Seleccionar Filtros</h2>
+                        <CategoryFilter 
+                            onYearChange={handleYearChange}
+                            onSemesterChange={handleSemesterChange}
+                        />
+                    
+                    <SortFilter onSortChange={handleSortChange}/>
+
+                <button className={styles.applyButton} onClick={applyFilters}>Aplicar Filtros</button>    
+            </div>
             
-            />
-
-            <label>Ordenar</label>
-            <SortFilter onSortChange={handleSortChange}/>
-
-            <button onClick={applyFilters}>Aplicar Filtros</button>
         </div> 
 
     );

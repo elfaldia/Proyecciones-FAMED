@@ -2,6 +2,9 @@
 
 import { error } from 'console';
 import React, { useState } from 'react';
+import styles from '@/app/styles/searchFilter.module.css'
+
+const currentYear = new Date().getFullYear();
 
 interface CategoryFilterProps {
     onSemesterChange: (semester: string) => void;
@@ -13,7 +16,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
     const [selectedYear, setSelectedYear] = useState<string>('');
     
     const semesterOptions = [
-        {value: '', label: 'Seleccionar Semestre'},
+        {value: '', label: 'Seleccionar'},
         {value: '1', label: '1° Semestre'},
         {value: '2', label: '2° Semestre'},
     ];
@@ -25,23 +28,28 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
 
     }
     return (
-        <div>
-            <label>Año</label>
-            <input 
-                type= 'number'
-                placeholder='Seleccionar Año'
-                min={'1997'}
-                max={'2024'}
-                onChange={(e) => onYearChange(e.target.value)}
+        <div className={styles['form-row']}>
+            <div className={styles['form-group']}>
+                <label className={styles.label}>Año</label>
+                <input className={styles.selectYearButton} 
+                    type= 'number'
+                    placeholder='Seleccionar'
+                    min={'1997'}
+                    max={currentYear}
+                    onChange={(e) => onYearChange(e.target.value)}
                 
-            />
+                />
+            </div>
 
-            <label>Semestre</label>
-            <select onChange={(e) => onSemesterChange(e.target.value)}>
-                {semesterOptions.map(option => (<option key={option.value} value={option.label}>
+            <div className={styles['form-group']}>
+                <label className={styles.label}>Semestre</label>
+                <select className = {styles.selectButton} onChange={(e) => onSemesterChange(e.target.value)}>
+                    {semesterOptions.map(option => (<option key={option.value} value={option.label}>
                     {option.label}
-                </option>))}
-            </select>
+                    </option>))}
+                </select>
+            </div>
+            
         </div>
     );
 };
