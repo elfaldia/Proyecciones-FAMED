@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/elfaldia/taller-noSQL/internal/model"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

@@ -1,4 +1,4 @@
-module github.com/elfaldia/taller-noSQL
+module github.com/elfaldia/Proyecciones-FAMED
 
 go 1.23.0
 

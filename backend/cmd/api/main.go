@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/elfaldia/taller-noSQL/internal/controller"
-	"github.com/elfaldia/taller-noSQL/internal/db"
-	"github.com/elfaldia/taller-noSQL/internal/repository"
-	"github.com/elfaldia/taller-noSQL/internal/service"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/controller"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/db"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/service"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -27,7 +27,6 @@ func main() {
 		}
 	}()
 
-	
 	db := client.Database("FAMED")
 	validator := validator.New()
 

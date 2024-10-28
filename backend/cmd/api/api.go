@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/elfaldia/taller-noSQL/internal/controller"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/controller"
 	"github.com/gin-gonic/gin"
 )
 

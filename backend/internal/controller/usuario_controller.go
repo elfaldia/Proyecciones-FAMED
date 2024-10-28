@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
-	"github.com/elfaldia/taller-noSQL/internal/request"
-	"github.com/elfaldia/taller-noSQL/internal/response"
-	"github.com/elfaldia/taller-noSQL/internal/service"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/request"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/response"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/elfaldia/taller-noSQL/internal/model"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

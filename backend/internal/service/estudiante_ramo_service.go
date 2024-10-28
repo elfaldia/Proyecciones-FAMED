@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 
-	"github.com/elfaldia/taller-noSQL/internal/model"
-	"github.com/elfaldia/taller-noSQL/internal/repository"
-	"github.com/elfaldia/taller-noSQL/internal/request"
-	"github.com/elfaldia/taller-noSQL/internal/response"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/request"
+	"github.com/elfaldia/Proyecciones-FAMED/internal/response"
 	"github.com/go-playground/validator"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

@@ -1,6 +1,6 @@
 package request
 
-import "github.com/elfaldia/taller-noSQL/internal/model"
+import "github.com/elfaldia/Proyecciones-FAMED/internal/model"
 
 type CreateEstudianteRamoRequest struct {
 	IdRamo       string       `json:"id_ramo" validate:"required"`
