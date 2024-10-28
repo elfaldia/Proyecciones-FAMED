@@ -1,0 +1,85 @@
+/* Estilos generales */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/GeistMonoVF.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.filter-form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.title {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-family: 'Geist', sans-serif;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  flex: 1;
+
+}
+
+.label {
+  margin-top: 10px;
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.selectYearButton, .selectButton{
+  width: 170px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* .selectButton {
+  width: 170px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+*/
+
+.select {
+  background-color: white;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.applyButton {
+  background-color: #216bb9;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding-inline: 20px;
+  padding-block: 10px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.applyButton:hover {
+  background-color: #00458e;
+}

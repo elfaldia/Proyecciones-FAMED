@@ -2,7 +2,7 @@
 
 import { error } from 'console';
 import React, { useState } from 'react';
-import styles from '../styles/searchFilter.module.css'
+import styles from '@/app/styles/searchFilter.module.css'
 
 const currentYear = new Date().getFullYear();
 

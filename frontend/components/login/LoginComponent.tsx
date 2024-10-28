@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+'use client'
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+import { useState } from 'react'
 
+interface LoginProps {
+  onLogin: (username: string, isProfessor: boolean) => void
+}
+
+export function LoginComponent({ onLogin }: LoginProps) {
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('')
+//sdsd
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simula una autenticación básica
-    if (username === 'Gabriel Vergara' && password === '1234') {
-      setIsLoggedIn(true);
+    e.preventDefault()
+    if (username === 'Sebastian Vega' && password === '1234') {
+      onLogin(username, false) // Estudiante
+    } else if (username === 'profesor' && password === '4321') {
+      onLogin(username, true) // Profesor
     } else {
-      alert('Credenciales incorrectas');
+      alert('Credenciales incorrectas')
     }
-  };
-
-  if (isLoggedIn) {
-    return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-gray-900">Bienvenido, {username}!</h1>
-        <p>Has iniciado sesión correctamente.</p>
-      </div>
-    );
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div
+      className="flex justify-center items-center h-screen bg-cover bg-center"
+      style={{ backgroundImage: 'url(https://postgrado.ucn.cl/wp-content/uploads/2023/06/Escudo-UCN-EIMG_7894-scaled.jpg)' }}
+    >
       <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
         <h2 className="text-2xl font-bold mb-4 text-center text-black">Login</h2>
         <div className="mb-4">
@@ -62,7 +62,5 @@ const Login = () => {
         </button>
       </form>
     </div>
-  );
-};
-
-export default Login;
+  )
+}

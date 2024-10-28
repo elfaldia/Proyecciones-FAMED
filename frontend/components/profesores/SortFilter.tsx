@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import styles from '../styles/searchFilter.module.css'
+import styles from '@/app/styles/searchFilter.module.css'
 
 interface SortFilterProps {
     onSortChange: (sortOrder:string ) => void;
