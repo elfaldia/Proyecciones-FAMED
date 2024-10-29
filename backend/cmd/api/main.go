@@ -49,7 +49,7 @@ func main() {
 	routes := gin.Default()
 
 	UsuarioRouter(routes, usuarioController)
-	RamoRouter(routes, ramoController, estudianteRamoController)
+	RamoRouter(routes, ramoController, estudianteRamoController, usuarioController)
 	EstudianteRamoRouter(routes, estudianteRamoController)
 
 	routes.Use(cors.Default()) // "*"

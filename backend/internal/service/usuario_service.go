@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"log"
 
 	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
@@ -40,11 +41,11 @@ func (u *UsuarioServiceImpl) FindAll() (res []response.UsuarioResponse, err erro
 	}
 	for _, value := range data {
 		usuario := response.UsuarioResponse{
-			Id:         value.Id,
-			Nombre:     value.Nombre,
-			Apellido:   value.Apellido,
-			Rut:        value.Rut,
-			EsProfesor: value.EsProfesor,
+			Id:       value.Id,
+			Nombre:   value.Nombre,
+			Apellido: value.Apellido,
+			Rut:      value.Rut,
+			Rol:      value.Rol,
 		}
 		res = append(res, usuario)
 	}
@@ -58,11 +59,11 @@ func (u *UsuarioServiceImpl) FindById(_id string) (response.UsuarioResponse, err
 	}
 
 	res := response.UsuarioResponse{
-		Id:         data.Id,
-		Nombre:     data.Nombre,
-		Apellido:   data.Apellido,
-		Rut:        data.Rut,
-		EsProfesor: data.EsProfesor,
+		Id:       data.Id,
+		Nombre:   data.Nombre,
+		Apellido: data.Apellido,
+		Rut:      data.Rut,
+		Rol:      data.Rol,
 	}
 	return res, nil
 }
@@ -75,10 +76,10 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 	}
 
 	usuario := model.Usuario{
-		Nombre:     req.Nombre,
-		Apellido:   req.Apellido,
-		Rut:        req.Rut,
-		EsProfesor: req.EsProfesor,
+		Nombre:   req.Nombre,
+		Apellido: req.Apellido,
+		Rut:      req.Rut,
+		Rol:      req.Rol,
 	}
 
 	data, err := u.UsuarioRepository.InsertOne(usuario)
@@ -86,11 +87,11 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 		return response.UsuarioResponse{}, err
 	}
 	res := response.UsuarioResponse{
-		Id:         data.Id,
-		Nombre:     req.Nombre,
-		Apellido:   req.Apellido,
-		Rut:        req.Rut,
-		EsProfesor: req.EsProfesor,
+		Id:       data.Id,
+		Nombre:   req.Nombre,
+		Apellido: req.Apellido,
+		Rut:      req.Rut,
+		Rol:      req.Rol,
 	}
 	return res, nil
 
@@ -106,13 +107,13 @@ func (u *UsuarioServiceImpl) FindByRut(rut string) (response.UsuarioResponse, er
 	if err != nil {
 		return response.UsuarioResponse{}, err
 	}
-
+	log.Printf(data.Nombre)
 	res := response.UsuarioResponse{
-		Id:         data.Id,
-		Nombre:     data.Nombre,
-		Apellido:   data.Apellido,
-		Rut:        data.Rut,
-		EsProfesor: data.EsProfesor,
+		Id:       data.Id,
+		Nombre:   data.Nombre,
+		Apellido: data.Apellido,
+		Rut:      data.Rut,
+		Rol:      data.Rol,
 	}
 	return res, nil
 }
