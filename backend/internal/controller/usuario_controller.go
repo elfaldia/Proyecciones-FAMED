@@ -148,7 +148,11 @@ func (controller *UsuarioController) Login(ctx *gin.Context) {
 
 func (controller *UsuarioController) CheckToken(ctx *gin.Context) {
 
-	token := strings.Split(ctx.Request.Header["Authorization"][0], " ")[1]
+	token, valid := controller.AuthorizationHeaderHandler(ctx)
+	if !valid {
+		return
+	}
+
 	esValido, err := controller.AuthService.VerifyToken(token)
 	if err != nil || !esValido {
 		ctx.JSON(http.StatusUnauthorized, response.ErrorResponse{
@@ -166,7 +170,10 @@ func (controller *UsuarioController) CheckToken(ctx *gin.Context) {
 
 func (controller *UsuarioController) ProfesorMiddleWare(ctx *gin.Context) {
 
-	tokenString := strings.Split(ctx.Request.Header["Authorization"][0], " ")[1]
+	tokenString, valid := controller.AuthorizationHeaderHandler(ctx)
+	if !valid {
+		return
+	}
 	token, err := controller.AuthService.ParseToken(tokenString)
 
 	if err != nil {
@@ -185,4 +192,25 @@ func (controller *UsuarioController) ProfesorMiddleWare(ctx *gin.Context) {
 		return
 	}
 	ctx.Next()
+}
+
+func (controller *UsuarioController) AuthorizationHeaderHandler(ctx *gin.Context) (string, bool) {
+	authHeader := ctx.GetHeader("Authorization")
+	if authHeader == "" {
+		ctx.JSON(401, response.ErrorResponse{
+			Code:    401,
+			Message: "Header Authorization debe tener el siguiente formato ser: 'Bearer {token}'",
+		})
+		return "", false
+	}
+
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		ctx.JSON(401, response.ErrorResponse{
+			Code:    401,
+			Message: "Header Authorization debe tener el siguiente formato ser: 'Bearer {token}'",
+		})
+		return "", false
+	}
+	return parts[1], true
 }
