@@ -33,7 +33,8 @@ func main() {
 	usuarioCollection := db.Collection("usuario")
 	usuarioRep := repository.NewUsuarioRepositoryImpl(usuarioCollection)
 	usuarioService, _ := service.NewUsuarioServiceImpl(usuarioRep, validator)
-	usuarioController := controller.NewUsuarioController(usuarioService)
+	authService, _ := service.NewAuthServiceImpl(usuarioService, validator)
+	usuarioController := controller.NewUsuarioController(usuarioService, authService)
 
 	ramoCollection := db.Collection("ramo")
 	ramoRep := repository.NewRamoRepositoryImpl(ramoCollection)

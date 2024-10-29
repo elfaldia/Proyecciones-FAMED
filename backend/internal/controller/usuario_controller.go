@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/elfaldia/Proyecciones-FAMED/internal/request"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/response"
@@ -11,10 +12,14 @@ import (
 
 type UsuarioController struct {
 	UsuarioService service.UsuarioService
+	AuthService    service.AuthService
 }
 
-func NewUsuarioController(service service.UsuarioService) *UsuarioController {
-	return &UsuarioController{UsuarioService: service}
+func NewUsuarioController(usuarioService service.UsuarioService, authService service.AuthService) *UsuarioController {
+	return &UsuarioController{
+		UsuarioService: usuarioService,
+		AuthService:    authService,
+	}
 }
 
 func (controller *UsuarioController) FindAll(ctx *gin.Context) {
@@ -108,4 +113,59 @@ func (controller *UsuarioController) DeleteUsuario(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, res)
 
+}
+
+func (controller *UsuarioController) Login(ctx *gin.Context) {
+
+	var req request.LoginRequest
+
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Code:    http.StatusBadRequest,
+			Message: err.Error(),
+		})
+		return
+	}
+	_, err := controller.UsuarioService.FindByRut(req.Rut)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	tokenString, err := controller.AuthService.CreateToken(req.Rut)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response.Response{
+		Code:   200,
+		Status: "OK",
+		Data:   tokenString,
+	})
+
+}
+
+func (controller *UsuarioController) CheckToken(ctx *gin.Context) {
+
+	token := strings.Split(ctx.Request.Header["Authorization"][0], " ")[1]
+	esValido, err := controller.AuthService.VerifyToken(token)
+	if err != nil || !esValido {
+		ctx.JSON(http.StatusUnauthorized, response.ErrorResponse{
+			Code:    http.StatusUnauthorized,
+			Message: "unauthorized",
+		})
+		return
+	}
+	ctx.JSON(http.StatusAccepted, response.Response{
+		Code:   http.StatusAccepted,
+		Status: "OK",
+		Data:   esValido,
+	})
 }

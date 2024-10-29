@@ -13,6 +13,7 @@ import (
 type UsuarioService interface {
 	FindAll() ([]response.UsuarioResponse, error)
 	FindById(string) (response.UsuarioResponse, error)
+	FindByRut(string) (response.UsuarioResponse, error)
 	CreateUsuario(request.CreateUsuarioRequest) (response.UsuarioResponse, error)
 	DeleteUsuario(string) (bool, error)
 }
@@ -67,6 +68,7 @@ func (u *UsuarioServiceImpl) FindById(_id string) (response.UsuarioResponse, err
 }
 
 func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (response.UsuarioResponse, error) {
+
 	err := u.Validate.Struct(req)
 	if err != nil {
 		return response.UsuarioResponse{}, err
@@ -96,4 +98,21 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 
 func (u *UsuarioServiceImpl) DeleteUsuario(_id string) (bool, error) {
 	return u.UsuarioRepository.DeleteOne(_id)
+}
+
+// FindByRut implements UsuarioService.
+func (u *UsuarioServiceImpl) FindByRut(rut string) (response.UsuarioResponse, error) {
+	data, err := u.UsuarioRepository.FindByRut(rut)
+	if err != nil {
+		return response.UsuarioResponse{}, err
+	}
+
+	res := response.UsuarioResponse{
+		Id:         data.Id,
+		Nombre:     data.Nombre,
+		Apellido:   data.Apellido,
+		Rut:        data.Rut,
+		EsProfesor: data.EsProfesor,
+	}
+	return res, nil
 }
