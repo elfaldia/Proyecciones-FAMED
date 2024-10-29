@@ -48,21 +48,18 @@ func main() {
 
 	routes := gin.Default()
 
+	// CORS da problemas si se hace despues primero definir CORS y luego las rutas
+	routes.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"PUT", "GET", "POST", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
 	UsuarioRouter(routes, usuarioController)
 	RamoRouter(routes, ramoController, estudianteRamoController, usuarioController)
 	EstudianteRamoRouter(routes, estudianteRamoController)
-
-	routes.Use(cors.Default()) // "*"
-	// CORS da problemas si se hace despues primero definir CORS y luego las rutas
-	/*
-		routes.Use(cors.New(cors.Config{
-			AllowOrigins:     []string{"http://localhost:3000"},
-			AllowMethods:     []string{"PUT", "GET", "POST", "DELETE"},
-			AllowHeaders:     []string{"Origin"},
-			ExposeHeaders:    []string{"Content-Length"},
-			AllowCredentials: true,
-		}))
-	*/
 
 	server := &http.Server{
 		Addr:           ":8080",

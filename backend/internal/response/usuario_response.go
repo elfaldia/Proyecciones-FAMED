@@ -11,3 +11,8 @@ type UsuarioResponse struct {
 	Rut      string             `json:"rut" bson:"rut"`
 	Rol      string             `json:"rol" bson:"rol"`
 }
+
+type CheckTokenResponse struct {
+	IsValid bool   `json:"is_valid"`
+	Rol     string `json:"rol"`
+}

@@ -153,18 +153,17 @@ func (controller *UsuarioController) CheckToken(ctx *gin.Context) {
 		return
 	}
 
-	esValido, err := controller.AuthService.VerifyToken(token)
-	if err != nil || !esValido {
+	rol, err := controller.AuthService.VerifyToken(token)
+	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, response.ErrorResponse{
 			Code:    http.StatusUnauthorized,
 			Message: "unauthorized",
 		})
 		return
 	}
-	ctx.JSON(http.StatusAccepted, response.Response{
-		Code:   http.StatusAccepted,
-		Status: "OK",
-		Data:   esValido,
+	ctx.JSON(http.StatusAccepted, response.CheckTokenResponse{
+		IsValid: true,
+		Rol:     rol,
 	})
 }
 

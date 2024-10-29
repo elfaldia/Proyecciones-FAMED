@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"log"
 	"time"
 
 	"github.com/elfaldia/Proyecciones-FAMED/internal/response"
@@ -14,7 +13,7 @@ var secretKey = []byte("auth-key")
 
 type AuthService interface {
 	CreateToken(string) (string, error)
-	VerifyToken(string) (bool, error)
+	VerifyToken(string) (string, error)
 	ParseToken(string) (*jwt.Token, error)
 }
 
@@ -40,7 +39,6 @@ func (a *AuthServiceImpl) CreateToken(rut string) (string, error) {
 		return "", err
 	}
 	rol := usuario.Rol
-	log.Printf("Rol en service: %s", rol)
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  rut,
 		"iss":  "famed-app",
@@ -57,17 +55,20 @@ func (a *AuthServiceImpl) CreateToken(rut string) (string, error) {
 
 }
 
-func (a *AuthServiceImpl) VerifyToken(tokenString string) (bool, error) {
+func (a *AuthServiceImpl) VerifyToken(tokenString string) (string, error) {
 
 	token, err := a.ParseToken(tokenString)
+
 	if err != nil {
-		return false, err
+		return "", err
 	}
 
 	if !token.Valid {
-		return false, errors.New("invalid token")
+		return "", errors.New("invalid token")
 	}
-	return true, nil
+	claims := token.Claims.(jwt.MapClaims)
+	role := claims["role"].(string)
+	return role, nil
 }
 
 func (a *AuthServiceImpl) ParseToken(tokenString string) (*jwt.Token, error) {
