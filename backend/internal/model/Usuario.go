@@ -8,4 +8,5 @@ type Usuario struct {
 	Apellido string             `json:"apellido" bson:"apellido"`
 	Rut      string             `json:"rut" bson:"rut"`
 	Rol      string             `json:"rol" bson:"rol"` // admin
+	Password string             `json:"password" bson:"password"`
 }

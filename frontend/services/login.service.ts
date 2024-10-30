@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export type LoginResponse = {
-    isValid: boolean,
-    username?: string,
+    success: boolean,
+    nombre?: string,
     role?: string,
     accessToken?: string,
 }
-export const checkSessionService = async (
+export const loginService = async (
     rut: string,
     password: string 
 ): Promise<LoginResponse> => {
@@ -22,15 +22,15 @@ export const checkSessionService = async (
             }
         );
         return {
-            isValid: (response.data?.is_valid as boolean),
-            username: response.data?.username,
+            success: (response.data?.success as boolean),
+            nombre: response.data?.nombre,
             role: response.data?.rol,
-            accessToken: response.data?.accessToken,
+            accessToken: response.data?.access_token,
         };
     }
     catch (error) {
         return {
-            isValid: false
+            success: false
         };
     }
 }

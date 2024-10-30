@@ -1,5 +1,7 @@
 'use client'
 
+import { loginService } from '@/services/login.service'
+import useSessionStore from '@/stores/useSessionStore'
 import { useState } from 'react'
 
 interface LoginProps {
@@ -7,20 +9,26 @@ interface LoginProps {
 }
 
 export function LoginComponent({ onLogin }: LoginProps) {
-  const [username, setUsername] = useState('') 
+  const [username_, setUsername_] = useState('') 
   const [password, setPassword] = useState('')
+  const {accessToken, username, role, setAccessToken, setUsername, setRole} = useSessionStore()
+
+
 //sdsd
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (username === 'Sebastian Vega' && password === '1234') {
-      onLogin(username, false) // Estudiante
-    } else if (username === 'profesor' && password === '4321') {
-      onLogin(username, true) // Profesor
+    const {success, accessToken, nombre, role} = await loginService(username_, password)
+    if(!success) {
+      alert("Credenciales incorrectas")
+    } else if(accessToken && nombre && role){
+      setAccessToken(accessToken)
+      setUsername(nombre)
+      setRole(role)
     } else {
-      alert('Credenciales incorrectas')
+      alert("Hubo un problema inesperado")
     }
   }
-
+  
   return (
     <div
       className="flex justify-center items-center h-screen bg-cover bg-center"
@@ -35,8 +43,8 @@ export function LoginComponent({ onLogin }: LoginProps) {
           <input
             type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={username_}
+            onChange={(e) => setUsername_(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded text-black"
             placeholder="Enter your username"
           />

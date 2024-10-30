@@ -128,7 +128,14 @@ func (controller *UsuarioController) Login(ctx *gin.Context) {
 		})
 		return
 	}
-
+	usuario, err := controller.UsuarioService.FindByRut(req.Rut)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
 	tokenString, err := controller.AuthService.CreateToken(req.Rut)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
@@ -138,10 +145,19 @@ func (controller *UsuarioController) Login(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, response.Response{
-		Code:   200,
-		Status: "OK",
-		Data:   tokenString,
+	if usuario.Password != req.Password {
+		ctx.JSON(http.StatusUnauthorized, response.ErrorResponse{
+			Code:    http.StatusUnauthorized,
+			Message: "password is not correct",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response.LoginResponse{
+		Success:     true,
+		Nombre:      usuario.Nombre,
+		Rol:         usuario.Rol,
+		AccessToken: tokenString,
 	})
 
 }

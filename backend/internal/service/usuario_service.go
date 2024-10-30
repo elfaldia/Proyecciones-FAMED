@@ -46,6 +46,7 @@ func (u *UsuarioServiceImpl) FindAll() (res []response.UsuarioResponse, err erro
 			Apellido: value.Apellido,
 			Rut:      value.Rut,
 			Rol:      value.Rol,
+			Password: value.Password,
 		}
 		res = append(res, usuario)
 	}
@@ -64,6 +65,7 @@ func (u *UsuarioServiceImpl) FindById(_id string) (response.UsuarioResponse, err
 		Apellido: data.Apellido,
 		Rut:      data.Rut,
 		Rol:      data.Rol,
+		Password: data.Password,
 	}
 	return res, nil
 }
@@ -80,6 +82,7 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 		Apellido: req.Apellido,
 		Rut:      req.Rut,
 		Rol:      req.Rol,
+		Password: req.Password,
 	}
 
 	data, err := u.UsuarioRepository.InsertOne(usuario)
@@ -92,6 +95,7 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 		Apellido: req.Apellido,
 		Rut:      req.Rut,
 		Rol:      req.Rol,
+		Password: req.Password,
 	}
 	return res, nil
 
@@ -114,6 +118,7 @@ func (u *UsuarioServiceImpl) FindByRut(rut string) (response.UsuarioResponse, er
 		Apellido: data.Apellido,
 		Rut:      data.Rut,
 		Rol:      data.Rol,
+		Password: data.Password,
 	}
 	return res, nil
 }
