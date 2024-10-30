@@ -43,7 +43,7 @@ func (a *AuthServiceImpl) CreateToken(rut string) (string, error) {
 		"sub":  rut,
 		"iss":  "famed-app",
 		"role": rol,
-		"exp":  time.Now().Add(time.Hour).Unix(),
+		"exp":  time.Now().Add(time.Hour * 168).Unix(),
 		"iat":  time.Now().Unix(),
 	})
 

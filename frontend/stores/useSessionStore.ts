@@ -4,7 +4,11 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 interface SessionState {
     accessToken?: string
-    setAccessToken: (accessToken: string) => void;
+    username?: string
+    role?: string
+    setUsername: (username: string) => void
+    setAccessToken: (accessToken: string) => void
+    setRole: (role: string) => void;
 }
 
 const useSessionStore = create<SessionState>() (
@@ -12,7 +16,11 @@ const useSessionStore = create<SessionState>() (
         persist(
             (set, get) => ({
                 accessToken: undefined,
-                setAccessToken: (accessToken: string) => set(()=>({accessToken}))
+                username: undefined,
+                role: undefined,
+                setAccessToken: (accessToken: string) => set(()=>({accessToken})),
+                setUsername: (username: string) => set(() => ({username})),
+                setRole: (role: string) => set(() => ({role}))
             }),
             {
                 name: 'sessionStore',

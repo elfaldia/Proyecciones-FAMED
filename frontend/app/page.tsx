@@ -9,7 +9,7 @@ import validateSesion from '@/services/validate.session.service'
 
 
 export default function Page() {
-  const { accessToken, setAccessToken } = useSessionStore()
+  const { accessToken, username, setUsername, role, setRole } = useSessionStore()
   const router = useRouter() // Instanciamos useRouter para usar la redirección
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function Page() {
       checkSessionService(accessToken)
       .then((data) => {
           if(!data.isValid) return
-          
+          setRole(data.role)
           if(data.role === 'profesor') {
               router.push('/profesor')
           } else if (data.role === 'estudiante') {
@@ -31,19 +31,16 @@ export default function Page() {
     
   }, [accessToken])
 
-  //setAccessToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzAyNDc2MjEsImlhdCI6MTczMDI0NDAyMSwiaXNzIjoiZmFtZWQtYXBwIiwicm9sZSI6InByb2Zlc29yIiwic3ViIjoiMTIzNCJ9.gJyPdgi1TWWuD0kMVMW3NGCNb3XaN6dLYZiyjbK4-SM')
   const handleLogin = (username: string, isProfessor: boolean) => {
 
+    setUsername(username)
+    setRole((isProfessor ? 'profesor' : 'estudiante'))
 
-    // Redirigir a /profesores si es profesor
-    if (isProfessor) {
-      router.push('/profesores') // Redirigir a la ruta de profesores
+    if(isProfessor) {
+      router.push('/profesor')
+    } else {
+      router.push('/estudiante')
     }
-  }
-
-  if (1 == 1) {
-    // Si es estudiante y está logueado, mostramos la página de estudiantes
-    return <StudentPage />
   }
 
   return <LoginComponent onLogin={handleLogin} />
