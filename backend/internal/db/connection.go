@@ -13,7 +13,7 @@ import (
 func ConnectToDataBase() (*mongo.Client, error) {
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	URI := "mongodb://localhost:27017/"
+	URI := "mongodb+srv://user:MlUbLvrzfEYUDu6O@famed.dbhrq.mongodb.net/?retryWrites=true&w=majority&appName=FAMED"
 	opts := options.Client().ApplyURI(URI).SetServerAPIOptions(serverAPI)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
