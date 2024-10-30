@@ -123,20 +123,6 @@ export function StudentPage() {
     setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }))
   }
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (username === 'Gabriel Vergara' && password === '1234') {
-      setIsLoggedIn(true)
-      setIsProfessor(false)
-      setStudentName(username)
-    } else if (username === 'profesor' && password === '4321') {
-      setIsLoggedIn(true)
-      setIsProfessor(true)
-    } else {
-      alert('Credenciales incorrectas')
-    }
-  }
-
   const renderGradeInputs = (category: string, year: number, semester: number) => (
     <div className="grid grid-cols-6 gap-4 mb-4">
       {grades[category] && grades[category][year] && grades[category][year][semester] ? (
@@ -200,49 +186,6 @@ export function StudentPage() {
     </Accordion>
   )
 
-  const renderLogin = () => (
-    <div
-      className={`flex justify-center items-center h-screen bg-cover bg-center ${isDarkMode ? 'bg-gray-900' : ''}`}
-      style={{ backgroundImage: isDarkMode ? 'none' : 'url(https://postgrado.ucn.cl/wp-content/uploads/2023/06/Escudo-UCN-EIMG_7894-scaled.jpg)' }}
-    >
-      <form onSubmit={handleLogin} className={`p-6 rounded shadow-md w-80 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <h2 className={`text-2xl font-bold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>Login</h2>
-        <div className="mb-4">
-          <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`} htmlFor="username">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-black border-gray-300'}`}
-            placeholder="Enter your username"
-          />
-        </div>
-        <div className="mb-6">
-          <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`} htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-black border-gray-300'}`}
-            placeholder="Enter your password"
-          />
-        </div>
-        <button
-          type="submit"
-          className={`w-full text-white p-2 rounded ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'}`}
-        >
-          Login
-        </button>
-      </form>
-    </div>
-  )
-
   const renderGradesInterface = () => (
     <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'}`}>
       <div className={`w-64 p-4 flex  flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-blue-600'}`}>
@@ -281,12 +224,6 @@ export function StudentPage() {
     </div>
   )
 
-  const renderProfessorInterface = () => (
-    <div className={`flex h-screen items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'}`}>
-      <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Bienvenido Profesor</h1>
-    </div>
-  )
-
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
   }
@@ -301,7 +238,9 @@ export function StudentPage() {
       >
         {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
       </button>
-      {isLoggedIn ? (isProfessor ? renderProfessorInterface() : renderGradesInterface()) : renderLogin()}
+      {renderGradesInterface()}
     </div>
   )
 }
+
+
