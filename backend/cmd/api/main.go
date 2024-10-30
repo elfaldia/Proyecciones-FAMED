@@ -33,7 +33,8 @@ func main() {
 	usuarioCollection := db.Collection("usuario")
 	usuarioRep := repository.NewUsuarioRepositoryImpl(usuarioCollection)
 	usuarioService, _ := service.NewUsuarioServiceImpl(usuarioRep, validator)
-	usuarioController := controller.NewUsuarioController(usuarioService)
+	authService, _ := service.NewAuthServiceImpl(usuarioService, validator)
+	usuarioController := controller.NewUsuarioController(usuarioService, authService)
 
 	ramoCollection := db.Collection("ramo")
 	ramoRep := repository.NewRamoRepositoryImpl(ramoCollection)
@@ -47,21 +48,18 @@ func main() {
 
 	routes := gin.Default()
 
-	UsuarioRouter(routes, usuarioController)
-	RamoRouter(routes, ramoController, estudianteRamoController)
-	EstudianteRamoRouter(routes, estudianteRamoController)
-
-	routes.Use(cors.Default()) // "*"
 	// CORS da problemas si se hace despues primero definir CORS y luego las rutas
-	/*
-		routes.Use(cors.New(cors.Config{
-			AllowOrigins:     []string{"http://localhost:3000"},
-			AllowMethods:     []string{"PUT", "GET", "POST", "DELETE"},
-			AllowHeaders:     []string{"Origin"},
-			ExposeHeaders:    []string{"Content-Length"},
-			AllowCredentials: true,
-		}))
-	*/
+	routes.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"PUT", "GET", "POST", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
+	UsuarioRouter(routes, usuarioController)
+	RamoRouter(routes, ramoController, estudianteRamoController, usuarioController)
+	EstudianteRamoRouter(routes, estudianteRamoController)
 
 	server := &http.Server{
 		Addr:           ":8080",

@@ -1,30 +1,46 @@
 'use client'
-
-import { useState } from 'react'
-import { useRouter } from 'next/navigation' // Importamos el hook useRouter
+import { useRouter } from 'next/navigation' 
 import { LoginComponent } from '@/components/login/LoginComponent'
 import { StudentPage } from '@/components/alumnos/studentpage'
+import useSessionStore from '@/stores/useSessionStore'
+import { checkSessionService } from '@/services/check.access.service'
+import { useEffect } from 'react'
+import validateSesion from '@/services/validate.session.service'
+
 
 export default function Page() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isProfessor, setIsProfessor] = useState(false)
-  const [username, setUsername] = useState('')
+  const { accessToken, username, setUsername, role, setRole } = useSessionStore()
   const router = useRouter() // Instanciamos useRouter para usar la redirección
 
-  const handleLogin = (username: string, isProfessor: boolean) => {
-    setIsLoggedIn(true)
-    setIsProfessor(isProfessor)
-    setUsername(username)
-
-    // Redirigir a /profesores si es profesor
-    if (isProfessor) {
-      router.push('/profesores') // Redirigir a la ruta de profesores
+  useEffect(() => {
+    if(accessToken) {
+      checkSessionService(accessToken)
+      .then((data) => {
+          if(!data.isValid) return
+          setRole(data.role)
+          if(data.role === 'profesor') {
+              router.push('/profesor')
+          } else if (data.role === 'estudiante') {
+              router.push('/estudiante')
+          }
+      })
+      .catch((err) => {
+          console.error(err)
+      })
     }
-  }
+    
+  }, [accessToken])
 
-  if (isLoggedIn && !isProfessor) {
-    // Si es estudiante y está logueado, mostramos la página de estudiantes
-    return <StudentPage studentName={username} />
+  const handleLogin = (username: string, isProfessor: boolean) => {
+
+    setUsername(username)
+    setRole((isProfessor ? 'profesor' : 'estudiante'))
+
+    if(isProfessor) {
+      router.push('/profesor')
+    } else {
+      router.push('/estudiante')
+    }
   }
 
   return <LoginComponent onLogin={handleLogin} />

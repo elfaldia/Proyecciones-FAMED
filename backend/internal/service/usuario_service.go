@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"log"
 
 	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
@@ -13,6 +14,7 @@ import (
 type UsuarioService interface {
 	FindAll() ([]response.UsuarioResponse, error)
 	FindById(string) (response.UsuarioResponse, error)
+	FindByRut(string) (response.UsuarioResponse, error)
 	CreateUsuario(request.CreateUsuarioRequest) (response.UsuarioResponse, error)
 	DeleteUsuario(string) (bool, error)
 }
@@ -39,11 +41,12 @@ func (u *UsuarioServiceImpl) FindAll() (res []response.UsuarioResponse, err erro
 	}
 	for _, value := range data {
 		usuario := response.UsuarioResponse{
-			Id:         value.Id,
-			Nombre:     value.Nombre,
-			Apellido:   value.Apellido,
-			Rut:        value.Rut,
-			EsProfesor: value.EsProfesor,
+			Id:       value.Id,
+			Nombre:   value.Nombre,
+			Apellido: value.Apellido,
+			Rut:      value.Rut,
+			Rol:      value.Rol,
+			Password: value.Password,
 		}
 		res = append(res, usuario)
 	}
@@ -57,26 +60,29 @@ func (u *UsuarioServiceImpl) FindById(_id string) (response.UsuarioResponse, err
 	}
 
 	res := response.UsuarioResponse{
-		Id:         data.Id,
-		Nombre:     data.Nombre,
-		Apellido:   data.Apellido,
-		Rut:        data.Rut,
-		EsProfesor: data.EsProfesor,
+		Id:       data.Id,
+		Nombre:   data.Nombre,
+		Apellido: data.Apellido,
+		Rut:      data.Rut,
+		Rol:      data.Rol,
+		Password: data.Password,
 	}
 	return res, nil
 }
 
 func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (response.UsuarioResponse, error) {
+
 	err := u.Validate.Struct(req)
 	if err != nil {
 		return response.UsuarioResponse{}, err
 	}
 
 	usuario := model.Usuario{
-		Nombre:     req.Nombre,
-		Apellido:   req.Apellido,
-		Rut:        req.Rut,
-		EsProfesor: req.EsProfesor,
+		Nombre:   req.Nombre,
+		Apellido: req.Apellido,
+		Rut:      req.Rut,
+		Rol:      req.Rol,
+		Password: req.Password,
 	}
 
 	data, err := u.UsuarioRepository.InsertOne(usuario)
@@ -84,11 +90,12 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 		return response.UsuarioResponse{}, err
 	}
 	res := response.UsuarioResponse{
-		Id:         data.Id,
-		Nombre:     req.Nombre,
-		Apellido:   req.Apellido,
-		Rut:        req.Rut,
-		EsProfesor: req.EsProfesor,
+		Id:       data.Id,
+		Nombre:   req.Nombre,
+		Apellido: req.Apellido,
+		Rut:      req.Rut,
+		Rol:      req.Rol,
+		Password: req.Password,
 	}
 	return res, nil
 
@@ -96,4 +103,22 @@ func (u *UsuarioServiceImpl) CreateUsuario(req request.CreateUsuarioRequest) (re
 
 func (u *UsuarioServiceImpl) DeleteUsuario(_id string) (bool, error) {
 	return u.UsuarioRepository.DeleteOne(_id)
+}
+
+// FindByRut implements UsuarioService.
+func (u *UsuarioServiceImpl) FindByRut(rut string) (response.UsuarioResponse, error) {
+	data, err := u.UsuarioRepository.FindByRut(rut)
+	if err != nil {
+		return response.UsuarioResponse{}, err
+	}
+	log.Printf(data.Nombre)
+	res := response.UsuarioResponse{
+		Id:       data.Id,
+		Nombre:   data.Nombre,
+		Apellido: data.Apellido,
+		Rut:      data.Rut,
+		Rol:      data.Rol,
+		Password: data.Password,
+	}
+	return res, nil
 }

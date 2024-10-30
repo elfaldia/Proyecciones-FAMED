@@ -12,6 +12,7 @@ import (
 type UsuarioRepository interface {
 	FindAll() ([]model.Usuario, error)
 	FindById(string) (model.Usuario, error)
+	FindByRut(string) (model.Usuario, error)
 	InsertOne(model.Usuario) (model.Usuario, error)
 	DeleteOne(string) (bool, error)
 }
@@ -77,4 +78,13 @@ func (u *UsuarioRepositoryImpl) DeleteOne(_id string) (bool, error) {
 		return true, nil
 	}
 	return false, nil
+}
+
+func (u *UsuarioRepositoryImpl) FindByRut(rut string) (usuario model.Usuario, err error) {
+
+	err = u.UsuarioCollection.FindOne(context.TODO(), bson.M{"rut": rut}).Decode(&usuario)
+	if err != nil {
+		return model.Usuario{}, err
+	}
+	return usuario, nil
 }
