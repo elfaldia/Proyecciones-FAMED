@@ -1,11 +1,19 @@
+'use client'
 import Link from 'next/link'
 import './styles.css'
+import useSessionStore from '@/stores/useSessionStore'
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const { setAccessToken } = useSessionStore()
+  const onHandleCerrarSesion = () => {
+      setAccessToken("")
+  }
+
   return (
     <html lang="es">
       <body>
@@ -16,8 +24,8 @@ export default function RootLayout({
                 <button className="sidebar-button">Estudiantes</button>
               </Link>
             
-              <Link href="/" passHref legacyBehavior>
-                <a className="sidebar-bottom-button">Cerrar Sesión</a>
+              <Link  href="/" passHref legacyBehavior>
+                <button onClick={onHandleCerrarSesion} className="sidebar-bottom-button">Cerrar Sesión</button>
               </Link>
             
             </div>
