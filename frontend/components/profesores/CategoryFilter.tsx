@@ -37,6 +37,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
     }
     return (
         <div className={styles['form-row']}>
+            <h2 className={styles.title}>Seleccionar Filtros</h2>
             <div className={styles['form-group']}>
                 <label className={styles.label}>Año</label>
                 <input className={styles.selectYearButton} 

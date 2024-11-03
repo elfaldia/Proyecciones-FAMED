@@ -33,20 +33,14 @@ const SearchFilter: React.FC<SearchFilterProps> = ({onApplyFilters}) => {
     return (
         <div className={styles['filter-form']}>
             <div className={styles['form-row']}>
-                
-                    <h2 className={styles.title}>Seleccionar Filtros</h2>
-                        <CategoryFilter 
-                            onYearChange={handleYearChange}
-                            onSemesterChange={handleSemesterChange}
-                        />
-                    
-                    <SortFilter onSortChange={handleSortChange}/>
-
+                <CategoryFilter 
+                    onYearChange={handleYearChange}
+                    onSemesterChange={handleSemesterChange}
+                />
+                <SortFilter onSortChange={handleSortChange}/>
                 <button className={styles.applyButton} onClick={applyFilters}>Aplicar Filtros</button>    
-            </div>
-            
+            </div>  
         </div> 
-
     );
 
 };
