@@ -156,8 +156,8 @@ export function StudentPage() {
           onClick={() => toggleCategory(category)}
         >
           {category === 'A' ? 'Notas de primero a quinto año (60%)' :
-           category === 'B' ? 'Notas de sexto a septimo año [internados] (30%)' :
-           'Notas de pregrado de espezializacion [4/9] (10%)'}
+           category === 'B' ? 'Notas de Internado (30%)' :
+           'Notas de exámenes de pregrado de especialización (10%)'}
         </AccordionTrigger>
         {expandedCategories[category] && (
           <AccordionContent>
