@@ -128,14 +128,14 @@ export function StudentPage() {
       {grades[category] && grades[category][year] && grades[category][year][semester] ? (
         grades[category][year][semester].map((grade, index) => (
           <div key={index} className="flex flex-col items-center">
-            <span className={`text-xs mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <span className={`text-l font-semibold mb-1 ${isDarkMode ? 'text-gray-600' : 'text-gray-800'}`}>
               {subjectNames[category][year][semester][index] || `Asignatura ${index + 1}`}
             </span>
             <Input
               type="number"
               value={grade || ''}
               onChange={(e) => updateGrade(category, year, semester, index, e.target.value)}
-              className={`w-16 border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-black border-gray-300'}`}
+              className={`w-17 h-11 text-lg border rounded ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-black border-gray-300'}`}
               min={1}
               max={7}
               step={0.1}
@@ -152,7 +152,7 @@ export function StudentPage() {
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value={category}>
         <AccordionTrigger
-          className={`text-lg font-semibold py-2 ${isDarkMode ? 'text-white' : 'text-black'}`}
+          className={`text-2xl font-semibold py-3 ${isDarkMode ? 'text-white' : 'text-black'}`}
           onClick={() => toggleCategory(category)}
         >
           {category === 'A' ? 'Notas de primero a quinto año (60%)' :
@@ -164,13 +164,13 @@ export function StudentPage() {
             {Array.from({ length: gradeCategories[category].years }).map((_, yearIndex) => (
               <Accordion key={yearIndex} type="single" collapsible className="mb-4">
                 <AccordionItem value={`year-${yearIndex}`}>
-                  <AccordionTrigger className={`text-md font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <AccordionTrigger className={`text-lg font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     {category === 'C' ? 'Notas' : `${yearIndex + (category === 'B' ? 6 : 1)}º Año`}
                   </AccordionTrigger>
                   <AccordionContent>
                     {Array.from({ length: gradeCategories[category].semestersPerYear }).map((_, semesterIndex) => (
                       <div key={semesterIndex} className="mb-4">
-                        <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <h4 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                           {category === 'C' ? '' : `Semestre ${semesterIndex + 1}`}
                         </h4>
                         {renderGradeInputs(category, yearIndex, semesterIndex)}
@@ -188,21 +188,24 @@ export function StudentPage() {
 
   const renderGradesInterface = () => (
     <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'}`}>
-      <div className={`w-64 p-4 flex  flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-blue-600'}`}>
+      <div className={`w-64 p-4 flex flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-blue-600'}`}>
         <h2 className="text-white text-xl font-bold mb-4">{studentName}</h2>
         <Button
           onClick={() => setShowStudentButton(!showStudentButton)}
-          className={`mb-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-black text-white'}`}
+          className={`mb-2 ${isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}`}
         >
           Estudiante
         </Button>
-        {showStudentButton && (
-          <Button onClick={() => setShowGrades(!showGrades)} className={isDarkMode ? 'bg-gray-700 text-white' : 'bg-black text-white'}>
+        {showStudentButton && !showGrades && (
+          <Button 
+            onClick={() => setShowGrades(true)} 
+            className={isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}
+          >
             Simular Notas
           </Button>
         )}
       </div>
-
+  
       <div className="flex-1 p-8 overflow-y-auto">
         {!showGrades ? (
           <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -216,13 +219,14 @@ export function StudentPage() {
             {renderCategory('B')}
             {renderCategory('C')}
             <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
-              <p className={`font-bold text-xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>Nota Final: {finalGrade}</p>
+            <p className={`font-bold text-3xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}> Nota Final: {finalGrade} </p>
+
             </div>
           </div>
         )}
       </div>
     </div>
-  )
+  )  
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
@@ -232,8 +236,8 @@ export function StudentPage() {
     <div className={isDarkMode ? 'dark' : ''}>
       <button
         onClick={toggleDarkMode}
-        className={`fixed top-4 right-4 p-2 rounded-full ${
-          isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-yellow-400'
+        className={`fixed top-4 right-4 p-4 rounded-full ${
+          isDarkMode ? 'bg-yellow-400 text-gray-900 text-2xl' : 'bg-gray-800 text-yellow-400 text-2xl'
         }`}
       >
         {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
