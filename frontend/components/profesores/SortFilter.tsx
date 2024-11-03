@@ -21,7 +21,6 @@ const SortFilter: React.FC<SortFilterProps> = ({onSortChange}) => {
 
     return (
         <div>
-            <label className={styles.label}>Ordenar</label>
             <select className={styles.selectButton} onChange={handleSortChange}>
                 <option value="">Ordenar por</option>
                 {sortOptions.map((option) => (
@@ -29,7 +28,7 @@ const SortFilter: React.FC<SortFilterProps> = ({onSortChange}) => {
                         {option.label}
                     </option>
                     ))}
-                </select>
+            </select>
         </div>
     );
 };

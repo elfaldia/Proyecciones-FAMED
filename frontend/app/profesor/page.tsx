@@ -3,7 +3,7 @@ import React from 'react'
 const PaginaProfesores = () => {
     return (
         <div>
-        <h1>Página de Profesores</h1>
+        <h1 style={{color: 'black'}}>Bienvenido</h1>
         
       </div>
     )

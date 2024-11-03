@@ -16,8 +16,8 @@
 }
 
 .title {
-  color: #333;
-  margin-top: 0;
+  color: #000000;
+  margin: 0 auto;
   margin-bottom: 20px;
   font-size: 20px;
   font-family: 'Geist', sans-serif;
@@ -40,7 +40,7 @@
   margin-top: 10px;
   display: block;
   margin-bottom: 5px;
-  color: #666;
+  color: #000000;
 }
 
 .selectYearButton, .selectButton{
@@ -49,16 +49,8 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  color: #000000;
 }
-
-/* .selectButton {
-  width: 170px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-*/
 
 .select {
   background-color: white;
@@ -69,9 +61,9 @@
 }
 
 .applyButton {
-  background-color: #216bb9;
+  background-color: #2563eb;
   color: white;
-  border: none;
+  border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   padding-inline: 20px;
@@ -82,4 +74,10 @@
 
 .applyButton:hover {
   background-color: #00458e;
+}
+
+.select::placeholder, 
+.selectYearButton::placeholder{
+  color: #000000;
+  opacity: 1; 
 }

@@ -1,11 +1,5 @@
 import Link from 'next/link'
 import './styles.css'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Simulador de Notas',
-  description: 'Aplicación para simular notas de estudiantes',
-}
 
 export default function RootLayout({
   children,
@@ -17,13 +11,17 @@ export default function RootLayout({
       <body>
         <div className="app-container">
             <div className="sidebar">
-            <h1 className="sidebar-title">Nombre del Profesor</h1>
-            <Link href="../profesores/estudiantes" passHref>
+              <h1 className="sidebar-title">Nombre del Profesor</h1>
+              <Link href="../profesor/estudiantes" passHref>      
                 <button className="sidebar-button">Estudiantes</button>
-            </Link>
+              </Link>
             
-            <button className='sidebar-bottom-button'>Cerrar Sesión</button>
+              <Link href="/" passHref legacyBehavior>
+                <a className="sidebar-bottom-button">Cerrar Sesión</a>
+              </Link>
+            
             </div>
+            
             <div className="main-content">
             {children}
             </div>

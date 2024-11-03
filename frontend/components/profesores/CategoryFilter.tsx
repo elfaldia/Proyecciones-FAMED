@@ -14,6 +14,7 @@ interface CategoryFilterProps {
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYearChange}) => {
     const [selectedYear, setSelectedYear] = useState<string>('');
+    const [selectedSemester, setSelectedSemester] = useState<string>('');
     
     const semesterOptions = [
         {value: '', label: 'Seleccionar'},
@@ -21,14 +22,22 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
         {value: '2', label: '2° Semestre'},
     ];
     
-    const handleYearChange = (year: string) => setSelectedYear(year);
-    
+    const handleYearChange = (year: string) => {
+        setSelectedYear(year);
+        onYearChange(year);
+    };
+
+    const handleSemesterChange = (semester: string) => {
+        setSelectedSemester(semester);
+        onSemesterChange(semester);
+    };
 
     const applyFilters = () => {
 
     }
     return (
         <div className={styles['form-row']}>
+            <h2 className={styles.title}>Seleccionar Filtros</h2>
             <div className={styles['form-group']}>
                 <label className={styles.label}>Año</label>
                 <input className={styles.selectYearButton} 
@@ -43,7 +52,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
 
             <div className={styles['form-group']}>
                 <label className={styles.label}>Semestre</label>
-                <select className = {styles.selectButton} onChange={(e) => onSemesterChange(e.target.value)}>
+                <select className = {styles.selectButton}  onChange={(e) => onSemesterChange(e.target.value)}>
                     {semesterOptions.map(option => (<option key={option.value} value={option.label}>
                     {option.label}
                     </option>))}
