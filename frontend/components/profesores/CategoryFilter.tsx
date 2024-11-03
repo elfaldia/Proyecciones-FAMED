@@ -52,7 +52,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onSemesterChange, onYear
 
             <div className={styles['form-group']}>
                 <label className={styles.label}>Semestre</label>
-                <select className = {styles.selectButton} value = {selectedSemester} onChange={(e) => onSemesterChange(e.target.value)}>
+                <select className = {styles.selectButton}  onChange={(e) => onSemesterChange(e.target.value)}>
                     {semesterOptions.map(option => (<option key={option.value} value={option.label}>
                     {option.label}
                     </option>))}
