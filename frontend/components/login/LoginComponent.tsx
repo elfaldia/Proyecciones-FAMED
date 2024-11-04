@@ -38,7 +38,7 @@ export function LoginComponent({ onLogin }: LoginProps) {
         <h2 className="text-2xl font-bold mb-4 text-center text-black">Login</h2>
         <div className="mb-4">
           <label className="block text-black text-sm font-bold mb-2" htmlFor="username">
-            Username
+            Rut
           </label>
           <input
             type="text"
@@ -46,7 +46,7 @@ export function LoginComponent({ onLogin }: LoginProps) {
             value={username_}
             onChange={(e) => setUsername_(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded text-black"
-            placeholder="Enter your username"
+            placeholder="Enter your rut"
           />
         </div>
         <div className="mb-6">

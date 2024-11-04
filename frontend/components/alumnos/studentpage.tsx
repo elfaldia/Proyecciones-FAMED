@@ -43,7 +43,7 @@ export function StudentPage() {
   })
   const [subjectNames, setSubjectNames] = useState<Record<string, string[][][]>>({
     A: [
-      [["Anatomía y Embriología I", "Histología I", "Procesos BiológicosI", "Introducción a la Medicina I", "Bioestadística I", "Ciencias Sociales de la Salud"], ["Anatomía y Embriología II", "Histología II", "Procesos BiológicosII", "Introducción a la Medicina II", "Bioestadística II", "Seguridad Social y Sistemas de salud"]],
+      [["Anatomía y Embriología I", "Histología I", "Procesos Biológicos I", "Introducción a la Medicina I", "Bioestadística I", "Ciencias Sociales de la Salud"], ["Anatomía y Embriología II", "Histología II", "Procesos BiológicosII", "Introducción a la Medicina II", "Bioestadística II", "Seguridad Social y Sistemas de salud"]],
       [["Función Normal y Patológica I", "Neurociencias", "Entrevista Clínica", "Epidemiología", "Investigación Cualitativa"], ["Función Normal y Patológica II", "Microbiología y Parasitología", "Semiología", "Diagnóstico de Salud Participativo", "Investigación Cuantitativa"]],
       [["Clínica del Adulto I", "Educación para la Salud", "Epidemiología de Enfermedades transmitibles", "Salud Familiar"],["Clínica del Adulto II", "Ética Médica I", "Medicina Basada en Evidencias", "Salud Ambiental"]],
       [["Clínica del Adulto III", "Ética Médica II", "Psicopatología I", "Gestión en Salud"],["Clínica del Adulto IV", "Psicopatología II", "Integración Clínica", "Gestión de Proyectos"]],
@@ -128,7 +128,7 @@ export function StudentPage() {
       {grades[category] && grades[category][year] && grades[category][year][semester] ? (
         grades[category][year][semester].map((grade, index) => (
           <div key={index} className="flex flex-col items-center">
-            <span className={`text-l font-semibold mb-1 ${isDarkMode ? 'text-gray-600' : 'text-gray-800'}`}>
+            <span className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-800'}`}>
               {subjectNames[category][year][semester][index] || `Asignatura ${index + 1}`}
             </span>
             <Input
@@ -152,7 +152,7 @@ export function StudentPage() {
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value={category}>
         <AccordionTrigger
-          className={`text-2xl font-semibold py-3 ${isDarkMode ? 'text-white' : 'text-black'}`}
+          className={`text-xl font-semibold py-3 ${isDarkMode ? 'text-white' : 'text-black'}`}
           onClick={() => toggleCategory(category)}
         >
           {category === 'A' ? 'Notas de primero a quinto año (60%)' :
