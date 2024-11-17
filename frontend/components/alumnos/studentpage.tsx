@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Moon, Sun } from 'lucide-react'
+import useSessionStore from '@/stores/useSessionStore'
 
 type GradeCategory = {
   years: number
@@ -186,47 +187,62 @@ export function StudentPage() {
     </Accordion>
   )
 
-  const renderGradesInterface = () => (
-    <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'}`}>
-      <div className={`w-64 p-4 flex flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-blue-600'}`}>
-        <h2 className="text-white text-xl font-bold mb-4">{studentName}</h2>
-        <Button
-          onClick={() => setShowStudentButton(!showStudentButton)}
-          className={`mb-2 ${isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}`}
-        >
-          Estudiante
-        </Button>
-        {showStudentButton && !showGrades && (
-          <Button 
-            onClick={() => setShowGrades(true)} 
-            className={isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}
-          >
-            Simular Notas
-          </Button>
-        )}
-      </div>
+  const renderGradesInterface = () => {
+    const { setAccessToken } = useSessionStore();
   
-      <div className="flex-1 p-8 overflow-y-auto">
-        {!showGrades ? (
-          <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <h1 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>Bienvenido</h1>
-            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-800'}>Este es un mensaje de bienvenida para el estudiante.</p>
-          </div>
-        ) : (
-          <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <h1 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-black'}`}>Simulación de Notas</h1>
-            {renderCategory('A')}
-            {renderCategory('B')}
-            {renderCategory('C')}
-            <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
-            <p className={`font-bold text-3xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}> Nota Final: {finalGrade} </p>
-
+    const onHandleCerrarSesion = () => {
+      setAccessToken("");
+      window.location.href = "/";
+    };
+  
+    return (
+      <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'}`}>
+        <div className={`w-64 p-4 flex flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-blue-600'}`}>
+          <h2 className="text-white text-xl font-bold mb-4">{studentName}</h2>
+          <Button
+            onClick={() => setShowStudentButton(!showStudentButton)}
+            className={`mb-2 ${isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}`}
+          >
+            Estudiante
+          </Button>
+          {showStudentButton && !showGrades && (
+            <Button
+              onClick={() => setShowGrades(true)}
+              className={isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}
+            >
+              Simular Notas
+            </Button>
+          )}
+          <Button
+            onClick={onHandleCerrarSesion}
+            className={`mt-auto ${isDarkMode ? 'bg-gray-700 text-white text-lg p-4' : 'bg-black text-white text-lg p-4'}`}
+          >
+            Cerrar Sesión
+          </Button>
+        </div>
+  
+        <div className="flex-1 p-8 overflow-y-auto">
+          {!showGrades ? (
+            <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+              <h1 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>Bienvenido</h1>
+              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-800'}>Este es un mensaje de bienvenida para el estudiante.</p>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+              <h1 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-black'}`}>Simulación de Notas</h1>
+              {renderCategory('A')}
+              {renderCategory('B')}
+              {renderCategory('C')}
+              <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                <p className={`font-bold text-3xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}> Nota Final: {finalGrade} </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  )  
+    );
+  };
+  
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
