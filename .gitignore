@@ -1,3 +1,6 @@
 node_modules/
 .next
-/backend/bin
+frontend/components.json
+frontend/components.json
+frontend/yarn.lock
+frontend/package.json
