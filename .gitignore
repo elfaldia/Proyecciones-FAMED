@@ -1,2 +1,6 @@
 node_modules/
 .next
+frontend/components.json
+frontend/components.json
+frontend/yarn.lock
+frontend/package.json
