@@ -11,11 +11,6 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-  const { setAccessToken } = useSessionStore()
-  const onHandleCerrarSesion = () => {
-      setAccessToken("")
-  }
-
   return (
     <SidebarProvider>
       <ProfSidebar />

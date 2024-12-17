@@ -1,4 +1,5 @@
-import {UsersRound, LogOut} from "lucide-react"
+import {UsersRound, LogOut, BookOpenCheck} from "lucide-react"
+
 
 import {
   Sidebar,
@@ -9,24 +10,27 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
+import useSessionStore from "@/stores/useSessionStore"
+import ItemSidebar from "./item-sidebar"
 
-const items = [
-  {
-    title: "Estudiante",
-    url: "../estudiante",
-    icon: UsersRound,
-  },
-
-  {
-    title: "Cerrar Sesión",
-    url: "/",
-    icon: LogOut, 
-
-  },
-]
 
 export function AlumSidebar() {
+
+  const { setAccessToken } = useSessionStore()
+  const onHandleCerrarSesion = () => {
+      setAccessToken("")
+  }
+
+  const items = [
+    <ItemSidebar title="Estudiante" url="../estudiante" icon={UsersRound} />,
+    <ItemSidebar title="Proyección" url="/estudiante/proyeccion" icon={BookOpenCheck} />,
+    <ItemSidebar title="Cerrar Sesión" url="/" icon={LogOut} onClick={onHandleCerrarSesion} />,
+    
+  ]
+  
+
   return (
       <Sidebar>
         <SidebarContent>
@@ -34,13 +38,10 @@ export function AlumSidebar() {
             <SidebarGroupLabel>Nombre del Alumno</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+                  {items.map((item, index) => (
+                    <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
+                        {item} 
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
