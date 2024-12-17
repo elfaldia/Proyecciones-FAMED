@@ -10,4 +10,5 @@ type EstudianteRamoResponse struct {
 	IdRamo       primitive.ObjectID `bson:"id_ramo" json:"id_ramo"`
 	IdEstudiante primitive.ObjectID `json:"id_estudiante" bson:"id_estudiante"`
 	Notas        []model.Nota       `json:"notas" bson:"notas"`
+	Validar      bool               `json:"validar" bson:"validar"`
 }

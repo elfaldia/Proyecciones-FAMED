@@ -36,7 +36,7 @@ func main() {
 	authService, _ := service.NewAuthServiceImpl(usuarioService, validator)
 	usuarioController := controller.NewUsuarioController(usuarioService, authService)
 
-	ramoCollection := db.Collection("ramo")
+	ramoCollection := db.Collection("Asignatura")
 	ramoRep := repository.NewRamoRepositoryImpl(ramoCollection)
 	ramoService, _ := service.NewRamoServiceImpl(ramoRep, validator)
 	ramoController := controller.NewRamoController(ramoService)
