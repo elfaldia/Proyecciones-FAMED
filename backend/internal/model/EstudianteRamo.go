@@ -7,6 +7,7 @@ type EstudianteRamo struct {
 	IdRamo       primitive.ObjectID `bson:"id_ramo" json:"id_ramo"`
 	IdEstudiante primitive.ObjectID `json:"id_estudiante" bson:"id_estudiante"`
 	Notas        []Nota             `json:"notas" bson:"notas"`
+	Validar      bool               `json:"validar" bson:"validar"`
 }
 
 type Nota struct {

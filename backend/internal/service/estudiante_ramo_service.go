@@ -67,6 +67,7 @@ func (e *EstudianteRamoServiceImpl) CreateEstudianteRamo(req request.CreateEstud
 		IdRamo:       data.IdRamo,
 		IdEstudiante: data.IdEstudiante,
 		Notas:        data.Notas,
+		Validar:      data.Validar,
 	}
 	return res, nil
 }
@@ -93,6 +94,7 @@ func (e *EstudianteRamoServiceImpl) FindAll() (res []response.EstudianteRamoResp
 			IdRamo:       value.IdRamo,
 			IdEstudiante: value.IdEstudiante,
 			Notas:        value.Notas,
+			Validar:      value.Validar,
 		}
 		res = append(res, estRamo)
 	}
@@ -110,6 +112,8 @@ func (e *EstudianteRamoServiceImpl) FindById(_id string) (response.EstudianteRam
 		Id:           data.Id,
 		IdRamo:       data.IdRamo,
 		IdEstudiante: data.IdEstudiante,
+		Notas:        data.Notas,
+		Validar:      data.Validar,
 	}
 	return res, nil
 }
