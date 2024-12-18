@@ -16,34 +16,50 @@ import (
 )
 
 func main() {
+	// Configuración de la base de datos usando el Adapter
+	var databaseAdapter db.DatabaseAdapter
+	mongoURI := "mongodb+srv://user:MlUbLvrzfEYUDu6O@famed.dbhrq.mongodb.net/?retryWrites=true&w=majority&appName=FAMED"
+	databaseAdapter = db.NewMongoAdapter(mongoURI)
 
-	client, err := db.ConnectToDataBase()
-	if err != nil {
-		log.Fatal(err.Error())
+	/*
+		databaseAdapter = db.NewBASEdapter(URI)
+	*/
+
+	// Conectar a la base de datos
+	if err := databaseAdapter.Connect(); err != nil {
+		log.Fatalf("Error conectando a la base de datos: %v", err)
 	}
 	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
-			log.Fatalf("Error desconectando de MongoDB: %v", err)
+		if err := databaseAdapter.Disconnect(context.TODO()); err != nil {
+			log.Fatalf("Error desconectando de la base de datos: %v", err)
 		}
 	}()
 
-	db := client.Database("FAMED")
-	validator := validator.New()
+	if err := databaseAdapter.Ping(context.TODO()); err != nil {
+		log.Fatal(err)
+	}
 
-	usuarioCollection := db.Collection("usuario")
+	// Obtenemos el cliente de MongoDB a partir del adaptador
+	mongoAdapter := databaseAdapter.(*db.MongoAdapter)
+	client := mongoAdapter.Client
+	database := client.Database("FAMED")
+	validate := validator.New()
+
+	// Configurar Repositories, Services y Controllers
+	usuarioCollection := database.Collection("usuario")
 	usuarioRep := repository.NewUsuarioRepositoryImpl(usuarioCollection)
-	usuarioService, _ := service.NewUsuarioServiceImpl(usuarioRep, validator)
-	authService, _ := service.NewAuthServiceImpl(usuarioService, validator)
+	usuarioService, _ := service.NewUsuarioServiceImpl(usuarioRep, validate)
+	authService, _ := service.NewAuthServiceImpl(usuarioService, validate)
 	usuarioController := controller.NewUsuarioController(usuarioService, authService)
 
-	ramoCollection := db.Collection("Asignatura")
+	ramoCollection := database.Collection("Asignatura")
 	ramoRep := repository.NewRamoRepositoryImpl(ramoCollection)
-	ramoService, _ := service.NewRamoServiceImpl(ramoRep, validator)
+	ramoService, _ := service.NewRamoServiceImpl(ramoRep, validate)
 	ramoController := controller.NewRamoController(ramoService)
 
-	estudianteRamoCollection := db.Collection("estudiante_ramo")
+	estudianteRamoCollection := database.Collection("estudiante_ramo")
 	estudianteRamoRep := repository.NewEstudianteRamoRepositoryImpl(estudianteRamoCollection)
-	estudianteRamoService, _ := service.NewEstudianteRamoServiceImpl(estudianteRamoRep, validator)
+	estudianteRamoService, _ := service.NewEstudianteRamoServiceImpl(estudianteRamoRep, validate)
 	estudianteRamoController := controller.NewEstudianteRamoController(estudianteRamoService)
 
 	routes := gin.Default()
@@ -69,8 +85,8 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	err = server.ListenAndServe()
-	if err != nil {
+	log.Println("Servidor corriendo en el puerto 8080...")
+	if err := server.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
 
