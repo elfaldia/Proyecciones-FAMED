@@ -13,6 +13,8 @@ func UsuarioRouter(service *gin.Engine, cUsuaurio *controller.UsuarioController)
 
 	router.POST("/auth/login", cUsuaurio.Login)
 	router.GET("/auth/check-token", cUsuaurio.CheckToken)
+
+	router.GET("/estudiante", cUsuaurio.GetEstudiantes) // deberia ir con middleware
 }
 
 func RamoRouter(

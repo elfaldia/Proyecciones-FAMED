@@ -13,6 +13,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -20,6 +21,16 @@ func main() {
 	var databaseAdapter db.DatabaseAdapter
 	mongoURI := "mongodb+srv://user:MlUbLvrzfEYUDu6O@famed.dbhrq.mongodb.net/?retryWrites=true&w=majority&appName=FAMED"
 	databaseAdapter = db.NewMongoAdapter(mongoURI)
+
+
+	err1 := godotenv.Load(".envrc")
+	if err1 != nil {
+		log.Fatalf("Error cargando archivo .envrc: %v", err1)
+	}
+
+	client, err := db.ConnectToDataBase()
+	if err != nil {
+		log.Fatal(err.Error())
 
 	/*
 		databaseAdapter = db.NewBASEdapter(URI)

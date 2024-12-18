@@ -229,3 +229,22 @@ func (controller *UsuarioController) AuthorizationHeaderHandler(ctx *gin.Context
 	}
 	return parts[1], true
 }
+
+
+func (controller *UsuarioController) GetEstudiantes(ctx *gin.Context) {
+	data, err := controller.UsuarioService.GetEstudiantes()
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Code: 500,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response.Response{
+		Code: http.StatusOK,
+		Status: "OK",
+		Data: data,
+	})
+}

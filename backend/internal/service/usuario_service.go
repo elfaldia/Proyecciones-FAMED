@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 
+	"github.com/elfaldia/Proyecciones-FAMED/env"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/model"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/request"
@@ -17,6 +18,7 @@ type UsuarioService interface {
 	FindByRut(string) (response.UsuarioResponse, error)
 	CreateUsuario(request.CreateUsuarioRequest) (response.UsuarioResponse, error)
 	DeleteUsuario(string) (bool, error)
+	GetEstudiantes() ([]response.EstudianteResponse, error)
 }
 
 type UsuarioServiceImpl struct {
@@ -121,4 +123,26 @@ func (u *UsuarioServiceImpl) FindByRut(rut string) (response.UsuarioResponse, er
 		Password: data.Password,
 	}
 	return res, nil
+}
+
+// GetEstudiantes implements UsuarioService.
+func (u *UsuarioServiceImpl) GetEstudiantes() ([]response.EstudianteResponse, error) {
+	data, err := u.FindAll()
+	if err != nil {
+		return []response.EstudianteResponse{}, err
+	}
+
+	dataEstudiante := []response.EstudianteResponse{}
+
+	for _, u := range data {
+		if u.Rol == env.GetString("ROL_ESTUDIANTE", "") {
+			dataEstudiante = append(dataEstudiante, response.EstudianteResponse{
+				Id:       u.Id,
+				Nombre:   u.Nombre,
+				Apellido: u.Apellido,
+				Rut:      u.Rut,
+			})
+		}
+	}
+	return dataEstudiante, nil
 }
