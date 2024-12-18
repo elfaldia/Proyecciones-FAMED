@@ -1,4 +1,5 @@
-import {UsersRound, LogOut} from "lucide-react"
+import { UsersRound, LogOut } from 'lucide-react'
+import ItemSidebar from "./item-sidebar"
 
 import {
   Sidebar,
@@ -10,44 +11,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
-const items = [
-  {
-    title: "Estudiantes",
-    url: "../profesor/estudiantes",
-    icon: UsersRound,
-  },
-
-  {
-    title: "Cerrar Sesión",
-    url: "/",
-    icon: LogOut, 
-
-  },
-]
+import useSessionStore from "@/stores/useSessionStore"
 
 export function ProfSidebar() {
+  const { setAccessToken } = useSessionStore()
+  const onHandleCerrarSesion = () => {
+    setAccessToken("")
+  }
+
+  const items = [
+    <ItemSidebar key="estudiantes" title="Estudiantes" url="../profesor/estudiantes" icon={UsersRound} />,
+    <ItemSidebar key="cerrar-sesion" title="Cerrar Sesión" url="/" icon={LogOut} onClick={onHandleCerrarSesion} />,
+  ];
+
   return (
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Nombre del Profesor</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
+    <Sidebar>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Nombre del Profesor</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton asChild>
+                    {item}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
     </Sidebar>
   )
 }
+

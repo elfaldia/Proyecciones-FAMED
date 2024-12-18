@@ -13,11 +13,16 @@ export default function page() {
     }
 
     return (
-        <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <h1 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>Bienvenido</h1>
-            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-800'}>Este es un mensaje de bienvenida para el estudiante.</p>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-6">¡Bienvenido a la pagina de Simulaciones-FAMED!</h1>
+          <p className="mb-4">Con nuestra calculadora, podrás:</p>
+          <ul className="list-disc pl-8 mb-6">
+            <li><strong>Visualizar tu promedio en tiempo real:</strong> ¡Sin necesidad de hacer cálculos a mano!</li>
+            <li><strong>Alta precisión:</strong> ¡Cálculos realizados con 4 decimales y mostrando solo 2 decimales, porque sabes que cada décima es importante!</li>
+            <li><strong>Integración con Banner:</strong> Tus notas se cargarán automáticamente para que tú solo te enfoques en las notas que deseas simular.</li>
+          </ul>
         </div>
-    )
+      )
 };
 
 /*
