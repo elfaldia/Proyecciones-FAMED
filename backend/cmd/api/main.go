@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/elfaldia/Proyecciones-FAMED/env"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/controller"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/db"
 	"github.com/elfaldia/Proyecciones-FAMED/internal/repository"
@@ -17,26 +18,16 @@ import (
 )
 
 func main() {
-	// Configuración de la base de datos usando el Adapter
-	var databaseAdapter db.DatabaseAdapter
-	mongoURI := "mongodb+srv://user:MlUbLvrzfEYUDu6O@famed.dbhrq.mongodb.net/?retryWrites=true&w=majority&appName=FAMED"
-	databaseAdapter = db.NewMongoAdapter(mongoURI)
-
 
 	err1 := godotenv.Load(".envrc")
 	if err1 != nil {
 		log.Fatalf("Error cargando archivo .envrc: %v", err1)
 	}
 
-	client, err := db.ConnectToDataBase()
-	if err != nil {
-		log.Fatal(err.Error())
+	var databaseAdapter db.DatabaseAdapter
+	mongoURI := env.GetString("URL_MONGO_FAMED", "mongodb+srv://user:MlUbLvrzfEYUDu6O@famed.dbhrq.mongodb.net/?retryWrites=true&w=majority&appName=FAMED")
+	databaseAdapter = db.NewMongoAdapter(mongoURI)
 
-	/*
-		databaseAdapter = db.NewBASEdapter(URI)
-	*/
-
-	// Conectar a la base de datos
 	if err := databaseAdapter.Connect(); err != nil {
 		log.Fatalf("Error conectando a la base de datos: %v", err)
 	}
