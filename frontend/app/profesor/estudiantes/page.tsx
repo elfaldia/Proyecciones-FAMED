@@ -35,7 +35,7 @@ const page:React.FC = () => {
             }
         }
         fetchEstudiantes()
-    })
+    }, [])
 
 
 
@@ -55,7 +55,7 @@ const page:React.FC = () => {
             {estudiantes.map((value, index) => {
                 return (
                     <div>
-                        <p>{" id: " + value._id + " Nombre: " + value.nombre + " apellido: " + value.apellido  + " rut: " + value.rut}</p>
+                        <p>{" id: " + value._id + " Nombre: " + value.nombre + " apellido: " + value.apellido  + " rut: " + value.rut + " año: " + value.anio_admision}</p>
                     </div>
                 )
             })}

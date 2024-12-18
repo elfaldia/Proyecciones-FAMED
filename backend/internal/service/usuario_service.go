@@ -43,12 +43,13 @@ func (u *UsuarioServiceImpl) FindAll() (res []response.UsuarioResponse, err erro
 	}
 	for _, value := range data {
 		usuario := response.UsuarioResponse{
-			Id:       value.Id,
-			Nombre:   value.Nombre,
-			Apellido: value.Apellido,
-			Rut:      value.Rut,
-			Rol:      value.Rol,
-			Password: value.Password,
+			Id:           value.Id,
+			Nombre:       value.Nombre,
+			Apellido:     value.Apellido,
+			Rut:          value.Rut,
+			Rol:          value.Rol,
+			Password:     value.Password,
+			AnioAdmision: value.AnioAdmision,
 		}
 		res = append(res, usuario)
 	}
@@ -137,10 +138,11 @@ func (u *UsuarioServiceImpl) GetEstudiantes() ([]response.EstudianteResponse, er
 	for _, u := range data {
 		if u.Rol == env.GetString("ROL_ESTUDIANTE", "") {
 			dataEstudiante = append(dataEstudiante, response.EstudianteResponse{
-				Id:       u.Id,
-				Nombre:   u.Nombre,
-				Apellido: u.Apellido,
-				Rut:      u.Rut,
+				Id:           u.Id,
+				Nombre:       u.Nombre,
+				Apellido:     u.Apellido,
+				Rut:          u.Rut,
+				AnioAdmision: u.AnioAdmision,
 			})
 		}
 	}

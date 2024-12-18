@@ -4,4 +4,5 @@ export interface Estudiante {
     nombre: string
     apellido: string
     rut: string
+    anio_admision: string
 }
