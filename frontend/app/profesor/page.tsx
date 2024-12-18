@@ -1,8 +1,12 @@
 import React from 'react'
+import {ModeToggle} from "@/components/ModeToggle";
 
 const PaginaProfesores = () => {
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="fixed top-4 right-4 z-50">
+        <ModeToggle />
+    </div>
       <h1 className="text-3xl font-bold mb-6">¡Bienvenido a Simulaciones-FAMED!</h1>
       <p className="mb-4">Monitorea el progreso de tus estudiantes en tiempo real.</p>
       <ul className="list-disc pl-8 mb-6">
