@@ -5,6 +5,7 @@ import { StudentPage } from '@/components/alumnos/studentpage'
 import useSessionStore from '@/stores/useSessionStore'
 import { checkSessionService } from '@/services/check.access.service'
 import { useEffect } from 'react'
+import {ModeToggle} from "@/components/ModeToggle";
 
 export default function Page() {
   const { accessToken, username, setUsername, role, setRole } = useSessionStore()
