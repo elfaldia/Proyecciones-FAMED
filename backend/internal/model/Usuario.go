@@ -7,6 +7,6 @@ type Usuario struct {
 	Nombre   string             `json:"nombre" bson:"nombre"`
 	Apellido string             `json:"apellido" bson:"apellido"`
 	Rut      string             `json:"rut" bson:"rut"`
-	Rol      string             `json:"rol" bson:"rol"` // admin
+	Rol      string             `json:"rol" bson:"rol"`
 	Password string             `json:"password" bson:"password"`
 }

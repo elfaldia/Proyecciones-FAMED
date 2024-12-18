@@ -13,9 +13,6 @@ const gradeCategories: Record<string, GradeCategory> = {
 
 export default function Page({isDarkMode} : {isDarkMode : boolean}) {
 
-    const [showGrades, setShowGrades] = useState(false)
-    const [showStudentButton, setShowStudentButton] = useState(false)
-    const [studentName, setStudentName] = useState('')
     const [grades, setGrades] = useState<Record<string, number[][][]>>({
         A: [
             [Array(6).fill(7), Array(6).fill(7)],

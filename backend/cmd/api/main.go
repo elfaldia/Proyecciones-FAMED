@@ -13,9 +13,15 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	err1 := godotenv.Load(".envrc")
+	if err1 != nil {
+		log.Fatalf("Error cargando archivo .envrc: %v", err1)
+	}
 
 	client, err := db.ConnectToDataBase()
 	if err != nil {

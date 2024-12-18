@@ -24,3 +24,10 @@ type LoginResponse struct {
 	Rol         string `json:"rol"`
 	AccessToken string `json:"access_token"`
 }
+
+type EstudianteResponse struct {
+	Id       primitive.ObjectID `json:"_id"`
+	Nombre   string             `json:"nombre"`
+	Apellido string             `json:"apellido"`
+	Rut      string             `json:"rut"`
+}
