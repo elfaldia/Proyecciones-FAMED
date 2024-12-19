@@ -14,6 +14,27 @@ const page:React.FC = () => {
 
     const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
     const [filteredEstudiantes, setFilteredEstudiantes] = useState<Estudiante[]>([]);
+
+
+    useEffect(() => {
+        const fetchEstudiantes = async () => {
+            const resp = await UsuarioService.GetEstudiantes()
+            console.log(resp)
+            if(resp.Code < 300 && resp.Code >= 200) {
+                const data = (resp as ApiUsusarioResponse<Estudiante[]>).Data
+                setEstudiantes(data)
+            } else {
+                console.log((resp as ApiUsusarioErrorResponse).Message)
+                alert("Error con la conexión")
+                setEstudiantes([])
+            }
+        }
+        fetchEstudiantes()
+    }, [])
+
+
+
+
     const [appliedFilters, setAppliedFilters] = useState<Filters>({
         year:'',
         sortOrder:'',
