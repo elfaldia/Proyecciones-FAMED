@@ -19,17 +19,13 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onYearChange}) => {
         onYearChange(year);
     };
 
-    const applyFilters = () => {
-
-    }
     return (
         <div className={styles['form-row']}>
-            <h2 className={styles.title}>Seleccionar Filtros</h2>
             <div className={styles['form-group']}>
-                <label className={styles.label}>Año</label>
+                <label className={styles.label}>Filtrar por Año</label>
                 <input className={styles.selectYearButton} 
                     type= 'number'
-                    placeholder='Seleccionar'
+                    placeholder='Año de ingreso'
                     min={'1997'}
                     max={currentYear}
                     onChange={(e) => handleYearChange(e.target.value)}

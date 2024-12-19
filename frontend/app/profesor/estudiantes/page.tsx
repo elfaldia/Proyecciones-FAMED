@@ -8,6 +8,7 @@ import { Estudiante } from '@/interfaces/estudiante';
 interface Filters {
     year: string;
     sortOrder: string;
+    studentName: string;
 }
 
 const page:React.FC = () => {
@@ -38,6 +39,7 @@ const page:React.FC = () => {
     const [appliedFilters, setAppliedFilters] = useState<Filters>({
         year:'',
         sortOrder:'',
+        studentName:'',
     });
 
     useEffect(() => {
@@ -63,22 +65,29 @@ const page:React.FC = () => {
         const filtered = estudiantes
             
         .filter(estudiante => {
+            const nameMatch = filters.studentName ? estudiante.nombre.toLowerCase() === filters.studentName.toLowerCase() ||
+            estudiante.apellido.toLowerCase() === filters.studentName.toLowerCase() || 
+            estudiante.nombre.toLowerCase().concat(' '+estudiante.apellido.toLowerCase()) === filters.studentName.toLowerCase(): true;
+            return nameMatch;
+            })
+
+        .filter(estudiante => {
                 const yearMatch = filters.year ? estudiante.anio_admision === filters.year : true;
                 return yearMatch;
             })
         
-            .sort((a, b) => {
-                if (filters.sortOrder === 'name-asc') {
-                    return a.nombre.localeCompare(b.nombre);
-                } else if (filters.sortOrder === 'name-desc') {
-                    return b.nombre.localeCompare(a.nombre);
-                } else if (filters.sortOrder === 'year-desc') {
-                    return b.anio_admision.localeCompare(a.anio_admision);
-                } else if (filters.sortOrder === 'year-asc') {
-                    return a.anio_admision.localeCompare(b.anio_admision);
-                }
-                return 0;
-            });
+        .sort((a, b) => {
+            if (filters.sortOrder === 'name-asc') {
+                return a.nombre.localeCompare(b.nombre);
+            } else if (filters.sortOrder === 'name-desc') {
+                return b.nombre.localeCompare(a.nombre);
+            } else if (filters.sortOrder === 'year-desc') {
+                return b.anio_admision.localeCompare(a.anio_admision);
+            } else if (filters.sortOrder === 'year-asc') {
+                return a.anio_admision.localeCompare(b.anio_admision);
+            }
+            return 0;
+        });
 
         setFilteredEstudiantes(filtered);
     };
@@ -87,13 +96,13 @@ const page:React.FC = () => {
         <div>
             <div>
                 <SearchFilter onApplyFilters={handleAppliedFilter} />
-                {appliedFilters.year || appliedFilters.sortOrder ? (
+                {appliedFilters.year || appliedFilters.sortOrder || appliedFilters.studentName ? (
                     <div>
                         {filteredEstudiantes.length > 0 ? (
                             <ul>
                                 {filteredEstudiantes.map(estudiante => (
                                     <li key={estudiante.rut}>
-                                        {estudiante.nombre} - {estudiante.anio_admision}
+                                        {estudiante.nombre} {estudiante.apellido}- {estudiante.anio_admision}
                                     </li>
                                 ))}
                             </ul>
