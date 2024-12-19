@@ -5,12 +5,13 @@ import (
 )
 
 type UsuarioResponse struct {
-	Id       primitive.ObjectID `bson:"_id" json:"_id"`
-	Nombre   string             `json:"nombre" bson:"nombre"`
-	Apellido string             `json:"apellido" bson:"apellido"`
-	Rut      string             `json:"rut" bson:"rut"`
-	Rol      string             `json:"rol" bson:"rol"`
-	Password string             `json:"password"`
+	Id           primitive.ObjectID `bson:"_id" json:"_id"`
+	Nombre       string             `json:"nombre" bson:"nombre"`
+	Apellido     string             `json:"apellido" bson:"apellido"`
+	Rut          string             `json:"rut" bson:"rut"`
+	Rol          string             `json:"rol" bson:"rol"`
+	Password     string             `json:"password"`
+	AnioAdmision string             `json:"anio_admision"`
 }
 
 type CheckTokenResponse struct {
@@ -26,8 +27,9 @@ type LoginResponse struct {
 }
 
 type EstudianteResponse struct {
-	Id       primitive.ObjectID `json:"_id"`
-	Nombre   string             `json:"nombre"`
-	Apellido string             `json:"apellido"`
-	Rut      string             `json:"rut"`
+	Id           primitive.ObjectID `json:"_id"`
+	Nombre       string             `json:"nombre"`
+	Apellido     string             `json:"apellido"`
+	Rut          string             `json:"rut"`
+	AnioAdmision string             `json:"anio_admision"`
 }

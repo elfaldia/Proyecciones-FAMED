@@ -41,16 +41,20 @@ const page:React.FC = () => {
         // Aplica los filtros directamente y actualiza `filteredEstudiantes`
         const filtered = estudiantes
             
-        /*.filter(estudiante => {
-                const yearMatch = filters.year ? estudiante.year === filters.year : true;
+        .filter(estudiante => {
+                const yearMatch = filters.year ? estudiante.anio_admision === filters.year : true;
                 return yearMatch;
             })
-        */
+        
             .sort((a, b) => {
                 if (filters.sortOrder === 'name-asc') {
                     return a.nombre.localeCompare(b.nombre);
                 } else if (filters.sortOrder === 'name-desc') {
                     return b.nombre.localeCompare(a.nombre);
+                } else if (filters.sortOrder === 'year-desc') {
+                    return b.anio_admision.localeCompare(a.anio_admision);
+                } else if (filters.sortOrder === 'year-asc') {
+                    return a.anio_admision.localeCompare(b.anio_admision);
                 }
                 return 0;
             });
@@ -68,7 +72,7 @@ const page:React.FC = () => {
                             <ul>
                                 {filteredEstudiantes.map(estudiante => (
                                     <li key={estudiante.rut}>
-                                        {estudiante.nombre} - 
+                                        {estudiante.nombre} - {estudiante.anio_admision}
                                     </li>
                                 ))}
                             </ul>
@@ -89,11 +93,3 @@ const page:React.FC = () => {
 };  
 
 export default page; 
-
-/* {estudiantes.map((value, index) => {
-                return (
-                    <div>
-                        <p>{" id: " + value._id + " Nombre: " + value.nombre + " apellido: " + value.apellido  + " rut: " + value.rut}</p>
-                    </div>
-                )
-            })}*/
