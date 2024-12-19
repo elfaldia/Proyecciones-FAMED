@@ -3,7 +3,16 @@ import React, {useEffect, useState} from 'react';
 import SearchFilter from '../../../components/profesores/SearchFilter'
 import { ApiUsusarioErrorResponse, ApiUsusarioResponse, UsuarioService } from '@/services/UsuarioService';
 import { Estudiante } from '@/interfaces/estudiante';
-
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+import { Download } from 'lucide-react';
 
 interface Filters {
     year: string;
@@ -95,27 +104,42 @@ const page:React.FC = () => {
     return (
         <div>
             <div>
-                <SearchFilter onApplyFilters={handleAppliedFilter} />
-                {appliedFilters.year || appliedFilters.sortOrder || appliedFilters.studentName ? (
-                    <div>
-                        {filteredEstudiantes.length > 0 ? (
-                            <ul>
-                                {filteredEstudiantes.map(estudiante => (
-                                    <li key={estudiante.rut}>
-                                        {estudiante.nombre} {estudiante.apellido}- {estudiante.anio_admision}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No hay estudiantes que coincidan con los filtros.</p>
-                        )}
-                    </div>
-                ):(
-                    <p>Seleccione al menos un filtro para ver los estudiantes</p>
-                )
-                }
+    <SearchFilter onApplyFilters={handleAppliedFilter} />
+    {appliedFilters.year || appliedFilters.sortOrder || appliedFilters.studentName ? (
+        <div>
+            {filteredEstudiantes.length > 0 ? (
+                <Table>
+                    <TableCaption>{filteredEstudiantes.length} estudiantes encontrados</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Nombre</TableHead>
+                            <TableHead>RUT</TableHead>
+                            <TableHead className="text-right">Descargar Informe</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {filteredEstudiantes.map(estudiante => (
+                            <TableRow key={estudiante.rut}>
+                                <TableCell>{estudiante.nombre} {estudiante.apellido}</TableCell>
+                                <TableCell>{estudiante.rut}</TableCell>
+                                <TableCell className="text-right">
+                                    <button>
+                                        <Download size="20px"/>
+                                    </button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            ) : (
+                <p>No hay estudiantes que coincidan con los filtros.</p>
+            )}
+        </div>
+    ) : (
+        <p>Seleccione al menos un filtro para ver los estudiantes.</p>
+    )}
+</div>
 
-            </div>
             
         </div>
     );
