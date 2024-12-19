@@ -5,7 +5,6 @@ import styles from '@/app/styles/searchFilter.module.css'
 
 
 interface Filters {
-    semester: string;
     year: string;
     sortOrder: string;
 }
@@ -17,13 +16,11 @@ interface SearchFilterProps {
 const SearchFilter: React.FC<SearchFilterProps> = ({onApplyFilters}) => {
     const [filters, setFilters] = useState<Filters>({
         year:'',
-        semester:'',
         sortOrder:'',
     });
 
 
     const handleYearChange = (year:string) => setFilters({...filters, year});
-    const handleSemesterChange = (semester:string) => setFilters({...filters, semester});
     const handleSortChange = (sortOrder:string) => setFilters({...filters, sortOrder});
 
     const applyFilters = () => {
@@ -35,7 +32,6 @@ const SearchFilter: React.FC<SearchFilterProps> = ({onApplyFilters}) => {
             <div className={styles['form-row']}>
                 <CategoryFilter 
                     onYearChange={handleYearChange}
-                    onSemesterChange={handleSemesterChange}
                 />
                 <SortFilter onSortChange={handleSortChange}/>
                 <button className={styles.applyButton} onClick={applyFilters}>Aplicar Filtros</button>    
